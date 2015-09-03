@@ -1,0 +1,1 @@
+7 eventHandler !"\"A3XAI_SMS\" addPublicVariableEventHandler {(_this select 1) call A3XAI_client_radioMessage;};" !"\"A3XAI_killMSG\" addPublicVariableEventHandler {(_this select 1) call A3XAI_client_killMessage;};"

@@ -1,0 +1,2 @@
+Copy the contents of this folder inside your server's @ExileServer folder. 
+If prompted to merge the Addons folder, click "Yes". Clicking "Yes" will not cause any Exile files to be modified in any way.
