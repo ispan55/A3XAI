@@ -11,7 +11,6 @@ _vehicle = _unitGroup getVariable ["assignedVehicle",objNull];
 
 if (_groupIsEmpty) then {
 	if (_vehicle isKindOf "LandVehicle") then {
-		{_vehicle removeAllEventHandlers _x} count ["HandleDamage","Killed"];
 		_vehicle call A3XAI_respawnAIVehicle;
 		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: AI vehicle patrol destroyed, adding vehicle %1 to cleanup queue.",(typeOf _vehicle)];};
 	};
@@ -24,6 +23,10 @@ if (_groupIsEmpty) then {
 	private ["_groupUnits","_newDriver","_unit"];
 	_groupUnits = (units _unitGroup) - [_victim,gunner _vehicle];
 	_groupSize = _unitGroup getVariable ["GroupSize",(count _groupUnits)];
+	if ((combatMode _unitGroup) isEqualTo "BLUE") then {
+		[_unitGroup,"Behavior_Reset"] call A3XAI_forceBehavior;
+		_unitGroup setVariable ["TimeLastUnitKilled",diag_tickTime];
+	};
 	if (_groupSize > 1) then {
 		if (_victim getVariable ["isDriver",false]) then {
 			_newDriver = _groupUnits call A3XAI_selectRandom;	//Find another unit to serve as driver (besides the gunner)

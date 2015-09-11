@@ -46,13 +46,13 @@ if (
 						[0,[]]
 					};
 					{
-						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0}) then {
+						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0}) then {
 							[_x,_radioSpeech] call A3XAI_radioSend;
 						};
 					} count _nearbyUnits;
 				} else {
 					{
-						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0}) then {
+						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0}) then {
 							[_x,[0,[]]] call A3XAI_radioSend;
 						};
 					} count _nearbyUnits;

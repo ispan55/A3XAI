@@ -1,9 +1,9 @@
 private ["_vehicle", "_vehicleType", "_spawnParams"];
 
-if (isNull _this) exitWith {diag_log format ["Error: %1 attempted to respawn null vehicle",__FILE__];};
-if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Respawning AI vehicle %1.",_this]};
+_vehicle = _this;
+if (isNull _vehicle) exitWith {diag_log format ["Error: %1 attempted to respawn null vehicle",__FILE__];};
+
 if (isDedicated) then {
-	_vehicle = _this;
 	_vehicleType = (typeOf _vehicle);
 	_spawnParams = _vehicle getVariable ["spawnParams",[]];
 	_vehicleClass = [configFile >> "CfgVehicles" >> _vehicleType,"vehicleClass",""] call BIS_fnc_returnConfigEntry;
@@ -20,11 +20,17 @@ if (isDedicated) then {
 		[3,_vehicleType] call A3XAI_addRespawnQueue;
 		if (_vehicleType isKindOf "Air") then {A3XAI_curUAVPatrols = A3XAI_curUAVPatrols - 1} else {A3XAI_curUGVPatrols = A3XAI_curUGVPatrols - 1};
 	};
-	_vehicle setVariable ["A3XAI_deathTime",diag_tickTime]; //mark vehicle for cleanup
+	if (A3XAI_vehiclesAllowedForPlayers) then {
+		_vehicle call A3XAI_releaseVehicleAllow;
+	} else {
+		_vehicle setVariable ["A3XAI_deathTime",diag_tickTime]; //mark vehicle for cleanup
+		{_vehicle removeAllEventHandlers _x} count ["HandleDamage","Killed","GetOut","Local","Hit"];
+		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Respawning AI %1.",(typeOf _vehicle)]};
+	};
 } else {
-	A3XAI_respawnVehicle_PVS = _this;
+	A3XAI_respawnVehicle_PVS = _vehicle;
 	publicVariableServer "A3XAI_respawnVehicle_PVS";
+	{_vehicle removeAllEventHandlers _x} count ["HandleDamage","Killed","GetOut","Local","Hit"];
 };
-{_this removeAllEventHandlers _x} count ["HandleDamage","Killed","GetOut","Local"];
 
 true

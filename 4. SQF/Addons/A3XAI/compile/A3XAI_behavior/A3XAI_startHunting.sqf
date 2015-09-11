@@ -18,7 +18,7 @@ if ((isPlayer _targetPlayer) && {(vehicle _targetPlayer) isKindOf "Land"}) then 
 			if ((count _nearbyUnits) > 10) then {_nearbyUnits resize 10;};
 			{
 				if (isPlayer _x) then {
-					if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0) then {
+					if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0) then {
 						[_x,[0,[]]] call A3XAI_radioSend;
 					};
 				}

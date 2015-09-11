@@ -37,12 +37,12 @@ if (_vehicleArmed) then {
 		if (local _unitGroup) then {
 			_vehiclePos = getPosATL _vehicle;
 			_vehiclePos set [2,0];
-			_nearUnits = _vehiclePos nearEntities [[PLAYER_UNITS,"LandVehicle"],250];
+			_nearUnits = _vehiclePos nearEntities [[PLAYER_UNITS,"LandVehicle"],300];
 			if ((count _nearUnits) > 5) then {_nearUnits resize 5};
 			{
-				if ((isPlayer _x) && {(_unitGroup knowsAbout _x) < 3}) then {
+				if ((isPlayer _x) && {(_unitGroup knowsAbout _x) < 3} && {(lineIntersectsSurfaces [(aimPos _vehicle),(eyePos _x),_vehicle,_x,true,1]) isEqualTo []}) then {
 					_unitGroup reveal [_x,3];
-					if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0) then {
+					if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0) then {
 						[_x,[31+(floor (random 5)),[name (leader _unitGroup)]]] call A3XAI_radioSend;
 					};
 				};

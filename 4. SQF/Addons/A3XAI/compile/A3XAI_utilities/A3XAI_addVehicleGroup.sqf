@@ -9,6 +9,19 @@ _unitsAlive = {alive _x} count (units _unitGroup);
 
 if (_unitsAlive isEqualTo 0) exitWith {diag_log format ["A3XAI Error: %1 cannot create trigger area for empty group %2.",__FILE__,_unitGroup];};
 
+/*_nearNoAggroAreas = nearestLocations [_pos,["A3XAI_NoAggroArea"],1500];
+if (({if (_pos in _x) exitWith {1}} count _nearNoAggroAreas) isEqualTo 0) then {
+} 
+} else {
+	_unitGroup setVariable ["GroupSize",-1];
+	if !(local _unitGroup) then {
+		A3XAI_updateGroupSize_PVC = [_unitGroup,-1];
+		A3XAI_HCObjectOwnerID publicVariableClient "A3XAI_updateGroupSize_PVC";
+	};
+	if (A3XAI_debugLevel > 0) then {
+		diag_log format ["A3XAI Debug: Vehicle group %1 inside no-aggro area. Deleting group.",_unitGroup];
+	};
+};*/
 {
 	if (alive _x) then {
 		if !(canMove _x) then {_x setHit ["legs",0]};
@@ -52,5 +65,7 @@ if !(local _unitGroup) then {
 	A3XAI_sendGroupTriggerVars_PVC = [_unitGroup,[_unitGroup],75,1,1,[_unitsAlive,0],0,"vehiclecrew",false,true];
 	A3XAI_HCObjectOwnerID publicVariableClient "A3XAI_sendGroupTriggerVars_PVC";
 };
+
+
 
 true

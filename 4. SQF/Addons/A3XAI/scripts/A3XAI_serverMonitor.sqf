@@ -1,12 +1,14 @@
 //Function frequency definitions
-#define CLEANDEAD_FREQ 600
-#define VEHICLE_CLEANUP_FREQ 60
+#define CLEANDEAD_FREQ 300
 #define LOCATION_CLEANUP_FREQ 360
 #define RANDSPAWN_CHECK_FREQ 360
 #define RANDSPAWN_EXPIRY_TIME 1080
 #define SIDECHECK_TIME 1200
 #define UPDATE_PLAYER_COUNT_FREQ 60
 #define PLAYER_UNITS "Exile_Unit_Player"
+#define EXTERNAL_OBJECT_MONITOR_NAME "ExileSimulationMonitoredVehicles"
+#define AI_GROUP_SIDE east
+#define PLAYER_GROUP_SIDE resistance
 
 if (A3XAI_debugLevel > 0) then {diag_log "A3XAI Server Monitor will start in 60 seconds."};
 
@@ -16,7 +18,7 @@ _cleanDead = _currentTime;
 _monitorReport = _currentTime;
 _deleteObjects = _currentTime;
 _dynLocations = _currentTime;
-_checkRandomSpawns = _currentTime - (RANDSPAWN_CHECK_FREQ/2);
+_checkRandomSpawns = _currentTime - RANDSPAWN_CHECK_FREQ;
 _sideCheck = _currentTime;
 _playerCountTime = _currentTime - UPDATE_PLAYER_COUNT_FREQ;
 
@@ -35,10 +37,7 @@ if (A3XAI_upwardsChanceScaling) then {
 	_multiplierHighPlayers = A3XAI_chanceScalingThreshold;
 };
 
-//Cleanup global variables
-A3XAI_chanceScalingThreshold = nil;
-A3XAI_upwardsChanceScaling = nil;
-A3XAI_playerCountThreshold = nil;
+A3XAI_externalObjectMonitor = missionNamespace getVariable [EXTERNAL_OBJECT_MONITOR_NAME,[]];
 
 //Local functions
 _getUptime = {
@@ -59,8 +58,15 @@ _getUptime = {
 	[_outHour,_outMin,_outSec]
 };
 
-_purgeEH = {
+_fnc_purgeAndDelete = {
+	if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Purging a %1 from A3XAI_monitoredObjects.",(typeOf _this)];};
 	{_this removeAllEventHandlers _x} count ["Killed","HandleDamage","GetIn","GetOut","Fired","Local","Hit"];
+	_index = A3XAI_monitoredObjects find _this;
+	if (_index > -1) then {A3XAI_monitoredObjects deleteAt _index;};
+	_index = A3XAI_externalObjectMonitor find _this;
+	if (_index > -1) then {A3XAI_externalObjectMonitor deleteAt _index;};
+	deleteVehicle _this;
+	true
 };
 
 //Script handles
@@ -68,120 +74,139 @@ _cleanupMain = scriptNull;
 _cleanupLocations = scriptNull;
 _cleanupRandomSpawns = scriptNull;
 
+_canKillCleanupMain = false;
+_canKillCleanupLocations = false;
+_canKillRandomSpawns = false;
+
 uiSleep 60;
 
 while {true} do {
 	//Main cleanup loop
 	_currentTime = diag_tickTime;
 	if ((_currentTime - _cleanDead) > CLEANDEAD_FREQ) then {
-		if !(scriptDone _cleanupMain) then {terminate _cleanupMain; diag_log "A3XAI terminated previous cleanupMain loop.";};
-		_cleanupMain = [_currentTime,_purgeEH] spawn {
-			_currentTime = _this select 0;
-			_purgeEH = _this select 1;
-			_bodiesCleaned = 0;
-			_vehiclesCleaned = 0;
-			
-			//Body/vehicle cleanup loop
-			{
-				_deathTime = _x getVariable "A3XAI_deathTime";
-				if (!isNil "_deathTime") then {
+		if (scriptDone _cleanupMain) then {
+			if (_canKillCleanupMain) then {_canKillCleanupMain = false;};
+			_cleanupMain = [_currentTime,_fnc_purgeAndDelete] spawn {
+				_currentTime = _this select 0;
+				_fnc_purgeAndDelete = _this select 1;
+
+				//Clean abandoned AI vehicles
+				{	
 					call {
-						if (_x isKindOf "CAManBase") exitWith {
-							if ((_currentTime - _deathTime) > A3XAI_cleanupDelay) then {
-								if (({isPlayer _x} count (_x nearEntities [[PLAYER_UNITS,"Air","LandVehicle"],30])) isEqualTo 0) then {
-									_x call _purgeEH;
-									deleteVehicle _x;
-									_bodiesCleaned = _bodiesCleaned + 1;
+						if (_x isKindOf "i_survivor_F") exitWith {
+							if !(alive _x) then {
+								_deathTime = _x getVariable "A3XAI_deathTime";
+								if (!isNil "_deathTime") then {
+									if ((_currentTime - _deathTime) > A3XAI_cleanupDelay) then {
+										if (({isPlayer _x} count (_x nearEntities [[PLAYER_UNITS,"Air","LandVehicle"],30])) isEqualTo 0) then {
+											_x call _fnc_purgeAndDelete;
+										};
+									};
+								} else {
+									_x setVariable ["A3XAI_deathTime",_currentTime];
 								};
+							};
+						};
+						if (_x isKindOf "I_UAV_AI") exitWith {
+							if !(alive _x) then {
+								_x call _fnc_purgeAndDelete;
 							};
 						};
 						if (_x isKindOf "AllVehicles") exitWith {
-							if ((_currentTime - _deathTime) > VEHICLE_CLEANUP_FREQ) then {
-								if (({isPlayer _x} count (_x nearEntities [[PLAYER_UNITS,"Air","LandVehicle"],60])) isEqualTo 0) then {
-									if (_x in A3XAI_monitoredObjects) then {
-										{
-											if (!(alive _x)) then {
-												deleteVehicle _x;
-											};
-										} forEach (crew _x);
+							_deathTime = _x getVariable "A3XAI_deathTime";
+							if (!isNil "_deathTime") then {
+								if ((_currentTime - _deathTime) > A3XAI_vehicleDespawnTime) then {
+									if (({isPlayer _x} count (_x nearEntities [[PLAYER_UNITS,"Air","LandVehicle"],60])) isEqualTo 0) then {
+										if (({alive _x} count (crew _x)) isEqualTo 0) then {
+											{
+												if !(alive _x) then {
+													_x call _fnc_purgeAndDelete;
+												};
+											} forEach (crew _x);
+											_x call _fnc_purgeAndDelete;
+										};
 									};
-									_x call _purgeEH;
-									deleteVehicle _x;
-									_vehiclesCleaned = _vehiclesCleaned + 1;
+								};
+							} else {
+								if !(alive _x) then {
+									_x setVariable ["A3XAI_deathTime",_currentTime];
 								};
 							};
 						};
 					};
-				};
-				uiSleep 0.025;
-			} count allDead;
-			
-			//Clean abandoned AI vehicles
-			{	
-				if (!isNull _x) then {
-					private ["_deathTime"];
-					_deathTime = _x getVariable "A3XAI_deathTime";
-					if (!isNil "_deathTime") then {
-						if ((_currentTime - _deathTime) > VEHICLE_CLEANUP_FREQ) then {
-							if (({alive _x} count (crew _x)) isEqualTo 0) then {
-								_x call _purgeEH;
-								deleteVehicle _x;
-								_vehiclesCleaned = _vehiclesCleaned + 1;
-							};
-						};
-					};
-				};
-				uiSleep 0.025;
-			} count A3XAI_monitoredObjects;
-			
-			//Clean server object monitor
-			if (objNull in A3XAI_monitoredObjects) then {A3XAI_monitoredObjects = A3XAI_monitoredObjects - [objNull];};
-			if ((_bodiesCleaned + _vehiclesCleaned) > 0) then {diag_log format ["A3XAI Cleanup: Cleaned up %1 dead units and %2 destroyed vehicles.",_bodiesCleaned,_vehiclesCleaned]};
+					uiSleep 0.025;
+				} count A3XAI_monitoredObjects;
+			};
+		} else {
+			if (_canKillCleanupMain) then {
+				terminate _cleanupMain; 
+				diag_log "A3XAI terminated previous cleanupMain thread.";
+			} else {
+				_canKillCleanupMain = true;
+				diag_log "A3XAI marked current cleanupMain thread for termination.";
+			};
 		};
 		_cleanDead = _currentTime;
 	};
 
 	//Main location cleanup loop
 	if ((_currentTime - _dynLocations) > LOCATION_CLEANUP_FREQ) then {
-		if !(scriptDone _cleanupLocations) then {terminate _cleanupLocations; diag_log "A3XAI terminated previous cleanupLocations loop.";};
-		_cleanupLocations  = [_currentTime] spawn {
-			_currentTime = _this select 0;
-			_locationsDeleted = 0;
-			A3XAI_areaBlacklists = A3XAI_areaBlacklists - [locationNull];
-			{
-				_deletetime = _x getVariable "deletetime"; 
-				if (isNil "_deleteTime") then {_deleteTime = _currentTime}; //since _x getVariable ["deletetime",_currentTime] gives an error...
-				//diag_log format ["DEBUG: CurrentTime: %1. Delete Time: %2",_currentTime,_deletetime];
-				if (_currentTime > _deletetime) then {
-					deleteLocation _x;
-					_locationsDeleted = _locationsDeleted + 1;
-				};
-				uiSleep 0.025;
-			} count A3XAI_areaBlacklists;
-			A3XAI_areaBlacklists = A3XAI_areaBlacklists - [locationNull];
-			if (_locationsDeleted > 0) then {diag_log format ["A3XAI Cleanup: Cleaned up %1 expired temporary blacklist areas.",_locationsDeleted]};
+		if (scriptDone _cleanupLocations) then {
+			if (_canKillCleanupLocations) then {_canKillCleanupLocations = false;};
+			_cleanupLocations  = [_currentTime] spawn {
+				_currentTime = _this select 0;
+				A3XAI_areaBlacklists = A3XAI_areaBlacklists - [locationNull];
+				{
+					_deletetime = _x getVariable "deletetime"; 
+					if (isNil "_deleteTime") then {_deleteTime = _currentTime}; //since _x getVariable ["deletetime",_currentTime] gives an error...
+					//diag_log format ["DEBUG: CurrentTime: %1. Delete Time: %2",_currentTime,_deletetime];
+					if (_currentTime > _deletetime) then {
+						deleteLocation _x;
+						A3XAI_areaBlacklists deleteAt _forEachIndex;
+					};
+					uiSleep 0.025;
+				} forEach A3XAI_areaBlacklists;
+			};
+		} else {
+			if (_canKillCleanupLocations) then {
+				terminate _cleanupLocations; 
+				diag_log "A3XAI terminated previous cleanupLocations thread.";
+			} else {
+				_canKillCleanupLocations = true;
+				diag_log "A3XAI marked current cleanupLocations thread for termination.";
+			};
 		};
 		_dynLocations = _currentTime;
 	};
 
 	if ((_currentTime - _checkRandomSpawns) > RANDSPAWN_CHECK_FREQ) then {
-		if !(scriptDone _cleanupRandomSpawns) then {terminate _cleanupRandomSpawns; diag_log "A3XAI terminated previous cleanupRandomSpawns loop.";};
-		_cleanupRandomSpawns = [_currentTime] spawn {
-			_currentTime = _this select 0;
-			A3XAI_randTriggerArray = A3XAI_randTriggerArray - [objNull];
-			{
-				if ((((triggerStatements _x) select 1) != "") && {(_currentTime - (_x getVariable ["timestamp",_currentTime])) > RANDSPAWN_EXPIRY_TIME}) then {
-					_triggerLocation = _x getVariable ["triggerLocation",locationNull];
-					deleteLocation _triggerLocation;
-					if (A3XAI_debugMarkersEnabled) then {deleteMarker (str _x)};	
-					deleteVehicle _x;
+		if (scriptDone _cleanupRandomSpawns) then {
+			if (_canKillRandomSpawns) then {_canKillRandomSpawns = false;};
+			_cleanupRandomSpawns = [_currentTime] spawn {
+				_currentTime = _this select 0;
+				A3XAI_randTriggerArray = A3XAI_randTriggerArray - [objNull];
+				{
+					if ((((triggerStatements _x) select 1) != "") && {(_currentTime - (_x getVariable ["timestamp",_currentTime])) > RANDSPAWN_EXPIRY_TIME}) then {
+						_triggerLocation = _x getVariable ["triggerLocation",locationNull];
+						deleteLocation _triggerLocation;
+						if (A3XAI_debugMarkersEnabled) then {deleteMarker (str _x)};	
+						deleteVehicle _x;
+						A3XAI_randTriggerArray deleteAt _forEachIndex;
+					};
+					if ((_forEachIndex % 3) isEqualTo 0) then {uiSleep 0.05};
+				} forEach A3XAI_randTriggerArray;
+				_spawnsAvailable = A3XAI_maxRandomSpawns - (count A3XAI_randTriggerArray);
+				if (_spawnsAvailable > 0) then {
+					_nul = _spawnsAvailable spawn A3XAI_setup_randomspawns;
 				};
-				if ((_forEachIndex % 3) isEqualTo 0) then {uiSleep 0.05};
-			} forEach A3XAI_randTriggerArray;
-			A3XAI_randTriggerArray = A3XAI_randTriggerArray - [objNull];
-			_spawnsAvailable = A3XAI_maxRandomSpawns - (count A3XAI_randTriggerArray);
-			if (_spawnsAvailable > 0) then {
-				_nul = _spawnsAvailable spawn A3XAI_setup_randomspawns;
+			};
+		} else {
+			if (_canKillRandomSpawns) then {
+				terminate _cleanupRandomSpawns; 
+				diag_log "A3XAI terminated previous cleanupRandomSpawns thread.";
+			} else {
+				_canKillRandomSpawns = true;
+				diag_log "A3XAI marked current cleanupRandomSpawns thread for termination.";
 			};
 		};
 		_checkRandomSpawns = _currentTime;
@@ -200,9 +225,9 @@ while {true} do {
 	
 	//Check for unwanted side modifications
 	if ((_currentTime - _sideCheck) > SIDECHECK_TIME) then {
-		if !((resistance getFriend east) isEqualTo 0) then {resistance setFriend [east, 0]};
-		if !((east getFriend resistance) isEqualTo 0) then {east setFriend [resistance, 0]};
-		if !((east getFriend east) isEqualTo 1) then {east setFriend [east, 1]};
+		if !((PLAYER_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 0) then {PLAYER_GROUP_SIDE setFriend [AI_GROUP_SIDE, 0]};
+		if !((AI_GROUP_SIDE getFriend PLAYER_GROUP_SIDE) isEqualTo 0) then {AI_GROUP_SIDE setFriend [PLAYER_GROUP_SIDE, 0]};
+		if !((AI_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 1) then {AI_GROUP_SIDE setFriend [AI_GROUP_SIDE, 1]};
 		_sideCheck = _currentTime;
 	};
 	
@@ -221,8 +246,8 @@ while {true} do {
 	A3XAI_activeGroups = A3XAI_activeGroups - [grpNull];
 	_activeGroupAmount = format ["%1/%2",{(_x getVariable ["GroupSize",0]) > 0} count A3XAI_activeGroups,count A3XAI_activeGroups];
 	if (A3XAI_debugLevel > 1) then {
-		_allGroupsEast = format [" (Total: %1)",{(side _x) isEqualTo EAST} count allGroups];
-		_activeGroupAmount = _activeGroupAmount + _allGroupsEast;
+		_allAIGroups = format [" (Total: %1)",{(side _x) isEqualTo AI_GROUP_SIDE} count allGroups];
+		_activeGroupAmount = _activeGroupAmount + _allAIGroups;
 	};
 	
 	//Report statistics to RPT log

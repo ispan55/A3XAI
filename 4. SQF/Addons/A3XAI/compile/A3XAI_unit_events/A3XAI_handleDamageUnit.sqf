@@ -6,17 +6,16 @@ _damage = 		_this select 2;				//Resulting level of damage for the selection. (R
 _source = 		_this select 3;				//The source unit that caused the damage. 
 _ammo = 		_this select 4;				//Classname of the projectile that caused inflicted the damage. ("" for unknown, such as falling damage.) 
 
-
-
 if (isPlayer _source) then {	
-	if ((_damage > 0.9) && {_part isEqualTo ""}) then {	//Check fatal damage only by players
-		_unit setVariable ["CollisionKilled",A3XAI_roadKillPenalty && {_ammo isEqualTo ""}];
+	if ((_damage > 0.9) && {_part isEqualTo ""} && {_ammo isEqualTo ""}) then {	//Check fatal damage only by players
+		if (A3XAI_noCollisionDamage) then {
+			_damage = 0;
+		} else {
+			_unit setVariable ["CollisionKilled",A3XAI_roadKillPenalty];
+		};
 	};
 } else {
 	_damage = 0; //Non-players cause no damage to unit
 };
 
 _damage
-
-
-

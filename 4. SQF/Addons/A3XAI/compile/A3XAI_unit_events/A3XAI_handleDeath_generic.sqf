@@ -19,16 +19,10 @@ if (isPlayer _killer) then {
 		_victim call A3XAI_purgeUnitGear;
 		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: %1 AI unit %2 was killed by collision damage caused by %3. Unit gear cleared.",_unitType,_victim,_killer]};
 	};
-	if (_unitsAlive > 0) then {
-		_unitGroup setFormDir ([(leader _unitGroup),_killer] call BIS_fnc_dirTo);
-		if ((A3XAI_findKiller) && {(combatMode _unitGroup) isEqualTo "YELLOW"}) then {
-			0 = [_killer,_unitGroup] spawn A3XAI_huntKiller;
-			if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Killer-searching mode triggered for AI group %1.",_unitGroup];};
-		};		
-	};
 } else {
 	if (_killer isEqualTo _victim) then {
 		_victim call A3XAI_purgeUnitGear;
+		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: %1 AI unit %2 was killed by self. Unit gear cleared.",_unitType,_victim]};
 	};
 };
 

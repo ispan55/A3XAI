@@ -13,6 +13,10 @@ if (_groupIsEmpty) then {
 		A3XAI_despawnRandomGroup_PVS = _unitGroup;
 		publicVariableServer "A3XAI_despawnRandomGroup_PVS";
 	};
+} else {
+	if ((A3XAI_findKiller) && {(combatMode _unitGroup) isEqualTo "YELLOW"}) then {
+		0 = [_killer,_unitGroup] spawn A3XAI_huntKiller;
+	};
 };
 
 true

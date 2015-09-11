@@ -8,7 +8,7 @@ if (isNull _vehicle) exitWith {};
 
 _checkPos = (getPosATL _vehicle);
 _leader = (leader _unitGroup);
-if (((_leader distance (_leader findNearestEnemy _vehicle)) > 750) && {_checkPos distance (_unitGroup getVariable ["antistuckPos",[0,0,0]]) < 750} && {canMove _vehicle}) then {
+if (((_leader distance (_leader findNearestEnemy _vehicle)) > 350) && {_checkPos distance (_unitGroup getVariable ["antistuckPos",[0,0,0]]) < 750} && {canMove _vehicle}) then {
 	_tooClose = true;
 	_wpSelect = [];
 	while {_tooClose} do {

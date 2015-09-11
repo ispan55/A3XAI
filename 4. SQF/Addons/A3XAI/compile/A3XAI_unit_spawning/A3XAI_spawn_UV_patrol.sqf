@@ -46,6 +46,7 @@ _unitType = if (_isAirVehicle) then {"uav"} else {"ugv"};
 _vehicle = createVehicle [_vehicleType, _vehiclePosition, [], 0, _spawnMode];
 createVehicleCrew _vehicle;
 _vehicle setAutonomous true;
+_vehicle lockDriver true;
 _unitGroup = [(group ((crew _vehicle) select 0)),_unitType] call A3XAI_initUVGroup;
 
 _vehicle call A3XAI_protectObject;

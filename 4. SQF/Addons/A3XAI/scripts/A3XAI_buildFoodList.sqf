@@ -9,6 +9,18 @@ _drink = [missionConfigFile >> "CfgTraderCategories" >> "Drinks","items",[]] cal
 
 _items = _food + _drink;
 
+if !(A3XAI_dynamicFoodBlacklist isEqualTo []) then {
+	_items = _items - A3XAI_dynamicFoodBlacklist;
+};
+
+{
+	_itemPrice = getNumber(missionConfigFile >> "CfgExileArsenal" >> _x >> "price");
+	if (_itemPrice > A3XAI_itemPriceLimit) then {
+		_items deleteAt _forEachIndex;
+		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Item %1 exceeds price limit of %2.",_x,A3XAI_itemPriceLimit];};
+	};
+} forEach _items;
+
 if !(_items isEqualTo []) then {
 	A3XAI_foodLoot = _items;
 	if (A3XAI_debugLevel > 0) then {
@@ -20,3 +32,6 @@ if !(_items isEqualTo []) then {
 } else {
 	diag_log "A3XAI Error: Could not dynamically generate food classname list. Classnames from A3XAI_config.sqf used instead.";
 };
+
+//Cleanup global vars
+A3XAI_dynamicFoodBlacklist = nil;

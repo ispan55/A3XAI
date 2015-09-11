@@ -1,3 +1,6 @@
+#define AI_GROUP_SIDE east
+#define PLAYER_GROUP_SIDE resistance
+
 /*
 	A3XAI Server Initialization File
 	
@@ -93,9 +96,9 @@ _centerMarker setMarkerSizeLocal [_markerInfo select 1,_markerInfo select 1];
 
 //Set side relations only if needed
 _allUnits = +allUnits;
-if !((resistance getFriend east) isEqualTo 0) then {resistance setFriend [east, 0]};
-if !((east getFriend resistance) isEqualTo 0) then {east setFriend [resistance, 0]};
-if !((east getFriend east) isEqualTo 1) then {east setFriend [east, 1]};
+if !((PLAYER_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 0) then {PLAYER_GROUP_SIDE setFriend [AI_GROUP_SIDE, 0]};
+if !((AI_GROUP_SIDE getFriend PLAYER_GROUP_SIDE) isEqualTo 0) then {AI_GROUP_SIDE setFriend [PLAYER_GROUP_SIDE, 0]};
+if !((AI_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 1) then {AI_GROUP_SIDE setFriend [AI_GROUP_SIDE, 1]};
 
 //Continue loading required A3XAI script files
 [] execVM format ['%1\init\A3XAI_post_init.sqf',A3XAI_directory];

@@ -33,12 +33,25 @@ _nul = [] spawn {
 	if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Default trigger check result: %1",[!(isNull A3XAI_defaultTrigger),(typeOf A3XAI_defaultTrigger),(getPosASL A3XAI_defaultTrigger)]]};
 };
 
-[] call compile preprocessFileLineNumbers format ["%1\scripts\buildWeightedTables.sqf",A3XAI_directory];
+[
+	//Input variable - Gradechances array, Output variable - Gradeindices array
+	["A3XAI_levelChancesAir","A3XAI_levelIndicesAir"],
+	["A3XAI_levelChancesLand","A3XAI_levelIndicesLand"],
+	["A3XAI_levelChancesUAV","A3XAI_levelIndicesUAV"],
+	["A3XAI_levelChancesUGV","A3XAI_levelIndicesUGV"],
+	["A3XAI_useWeaponChance0","A3XAI_weaponTypeIndices0"],
+	["A3XAI_useWeaponChance1","A3XAI_weaponTypeIndices1"],
+	["A3XAI_useWeaponChance2","A3XAI_weaponTypeIndices2"],
+	["A3XAI_useWeaponChance3","A3XAI_weaponTypeIndices3"]
+] call compile preprocessFileLineNumbers format ["%1\scripts\buildWeightedTables.sqf",A3XAI_directory];
 
 if (A3XAI_verifyClassnames) then {
-	A3XAI_tableChecklist = ["A3XAI_pistolList","A3XAI_rifleList","A3XAI_machinegunList","A3XAI_sniperList","A3XAI_headgearTypes0","A3XAI_headgearTypes1","A3XAI_headgearTypes2","A3XAI_headgearTypes3",
-				"A3XAI_backpackTypes0","A3XAI_backpackTypes1","A3XAI_backpackTypes2","A3XAI_backpackTypes3","A3XAI_foodLoot","A3XAI_MiscLoot1","A3XAI_MiscLoot2","A3XAI_airReinforcementVehicles",
-				"A3XAI_uniformTypes0","A3XAI_uniformTypes1","A3XAI_uniformTypes2","A3XAI_uniformTypes3","A3XAI_launcherTypes","A3XAI_vestTypes0","A3XAI_vestTypes1","A3XAI_vestTypes2","A3XAI_vestTypes3"];
+	A3XAI_tableChecklist = ["A3XAI_pistolList0","A3XAI_rifleList0","A3XAI_machinegunList0","A3XAI_sniperList0","A3XAI_pistolList1","A3XAI_rifleList1","A3XAI_machinegunList1","A3XAI_sniperList1",
+	"A3XAI_pistolList2","A3XAI_rifleList2","A3XAI_machinegunList2","A3XAI_sniperList2","A3XAI_headgearTypes0","A3XAI_headgearTypes1","A3XAI_headgearTypes2","A3XAI_headgearTypes3",
+	"A3XAI_pistolList3","A3XAI_rifleList3","A3XAI_machinegunList3","A3XAI_sniperList3","A3XAI_backpackTypes0","A3XAI_backpackTypes1","A3XAI_backpackTypes2","A3XAI_backpackTypes3",
+	"A3XAI_pistolList","A3XAI_rifleList","A3XAI_machinegunList","A3XAI_sniperList","A3XAI_foodLoot","A3XAI_MiscLoot1","A3XAI_MiscLoot2","A3XAI_airReinforcementVehicles","A3XAI_uniformTypes0",
+	"A3XAI_uniformTypes1","A3XAI_uniformTypes2","A3XAI_uniformTypes3","A3XAI_launcherTypes",
+	"A3XAI_vestTypes0","A3XAI_vestTypes1","A3XAI_vestTypes2","A3XAI_vestTypes3"];
 };
 
 

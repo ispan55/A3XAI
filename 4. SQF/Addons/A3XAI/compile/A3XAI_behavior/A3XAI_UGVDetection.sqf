@@ -26,15 +26,12 @@ if ((diag_tickTime - (_unitGroup getVariable ["UVLastCall",-A3XAI_UGVCallReinfor
 		{
 			_playerPos = getPosATL _x;
 			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearNoAggroAreas) isEqualTo 0}) then {
-				_UGVAimPos = aimPos _vehicle;
-				_playerEyePos = eyePos _x;
-				if (((lineIntersectsSurfaces [_UGVAimPos,_playerEyePos,_vehicle,_x,true,1]) isEqualTo []) && {A3XAI_UGVDetectChance call A3XAI_chance}) then {
-				//if (!(terrainIntersectASL [_UGVAimPos,_playerEyePos]) && {!(lineIntersects [_UGVAimPos,_playerEyePos,_vehicle,_x])} && {A3XAI_UGVDetectChance call A3XAI_chance}) then {
+				if (((lineIntersectsSurfaces [(aimPos _vehicle),(eyePos _x),_vehicle,_x,true,1]) isEqualTo []) && {A3XAI_UGVDetectChance call A3XAI_chance}) then {
 					if (_canCall) then {
 						if (isDedicated) then {
-							_nul = [(getPosATL _x),_x,_unitGroup getVariable ["unitLevel",0]] spawn A3XAI_spawn_reinforcement;
+							_nul = [_playerPos,_x,_unitGroup getVariable ["unitLevel",0]] spawn A3XAI_spawn_reinforcement;
 						} else {
-							A3XAI_spawnReinforcements_PVS = [(getPosATL _x),_x,_unitGroup getVariable ["unitLevel",0]];
+							A3XAI_spawnReinforcements_PVS = [_playerPos,_x,_unitGroup getVariable ["unitLevel",0]];
 							publicVariableServer "A3XAI_spawnReinforcements_PVS";
 						};
 						_unitGroup setVariable ["UVLastCall",diag_tickTime];
@@ -42,7 +39,7 @@ if ((diag_tickTime - (_unitGroup getVariable ["UVLastCall",-A3XAI_UGVCallReinfor
 					};
 					if (_canReveal && {(_unitGroup knowsAbout _x) < 2}) then {
 						_unitGroup reveal [_x,2.5]; 
-						if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0) then {
+						if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0) then {
 							[_x,[51+(floor (random 5)),[_unitGroup,[configFile >> "CfgVehicles" >> (typeOf _vehicle),"displayName",""] call BIS_fnc_returnConfigEntry]]] call A3XAI_radioSend;
 						};
 					};

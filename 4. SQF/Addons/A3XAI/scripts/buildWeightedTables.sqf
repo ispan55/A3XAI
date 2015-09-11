@@ -2,6 +2,8 @@ private ["_startTime","_getWeightedIndices"];
 
 _startTime = diag_tickTime;
 
+if ((typeName _this) != "ARRAY") exitWith {diag_log format ["%1 was given non-array input.",__FILE__];};
+
 //Function exerpt from fn_selectRandomWeighted.sqf written by Joris-Jan van 't Land
 _getWeightedIndices = {
 	private ["_array", "_weights","_index","_weighted","_i"];
@@ -51,17 +53,7 @@ _getWeightedIndices = {
 		missionNamespace setVariable [_x select 1,_weightedTable];
 		missionNamespace setVariable [_x select 0,nil];
 	};
-} count [
-			//Input variable - Gradechances array, Output variable - Gradeindices array
-			["A3XAI_levelChancesAir","A3XAI_levelIndicesAir"],
-			["A3XAI_levelChancesLand","A3XAI_levelIndicesLand"],
-			["A3XAI_levelChancesUAV","A3XAI_levelIndicesUAV"],
-			["A3XAI_levelChancesUGV","A3XAI_levelIndicesUGV"],
-			["A3XAI_useWeaponChance0","A3XAI_weaponTypeIndices0"],
-			["A3XAI_useWeaponChance1","A3XAI_weaponTypeIndices1"],
-			["A3XAI_useWeaponChance2","A3XAI_weaponTypeIndices2"],
-			["A3XAI_useWeaponChance3","A3XAI_weaponTypeIndices3"]
-		];
+} count _this;
 
 if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: A3XAI finished building weighted unitLevel tables in %1 seconds.",(diag_tickTime - _startTime)]};
 

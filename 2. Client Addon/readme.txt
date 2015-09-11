@@ -5,7 +5,7 @@ A3XAI Client Optional Addon
 ------------------
 The A3XAI client optional addon is used by A3XAI to run client-side commands. To install:
 1. Unpack your mission pbo file (example: Exile.Altis.pbo) and copy the A3XAI_Client folder into the extracted folder.
-2. Edit your extracted mission folder's initPlayerLocal.sqf and insert this at the end:
+2. Edit your extracted mission folder's init.sqf (if no init.sqf exists - create one) and insert this at the end:
 
 	#include "A3XAI_Client\A3XAI_initclient.sqf";
 

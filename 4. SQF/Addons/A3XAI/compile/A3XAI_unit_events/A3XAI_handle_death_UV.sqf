@@ -10,7 +10,7 @@ _victim setVariable ["deathhandled",true];
 _vehicle = (vehicle _victim);
 _unitGroup = (group _victim);
 
-{_victim removeAllEventHandlers _x} count ["Killed","HandleDamage","Local"];
+{_victim removeAllEventHandlers _x} count ["Killed","HandleDamage","Local","Hit"];
 _victim setDamage 1;
 
 //Check number of units alive, preserve group immediately if empty.

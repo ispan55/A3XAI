@@ -35,8 +35,7 @@ _unitGroup setVariable ["lootGenTime",_currentTime];
 
 //Setup loot variables
 _updateServerLoot = (A3XAI_enableHC && {!isDedicated});
-_pullRate = 60;
-if (_unitType in ["dynamic","random"]) then {_pullRate = ((_pullRate/2) max 30)};
+_pullRate = 30;
 
 if (isDedicated) then {
 	[_unitGroup,_unitType,_unitLevel] call A3XAI_setLoadoutVariables;
@@ -205,9 +204,8 @@ if !(isDedicated) exitWith {
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Returned ownership of AI %1 group %2 to server.",_unitType,_unitGroup];};
 };
 
-if !(isNull _vehicle) then {
-	if (isEngineOn _vehicle) then {_vehicle engineOn false;};
-	if (isNil {_vehicle getVariable "A3XAI_deathTime"}) then {_vehicle setVariable ["A3XAI_deathTime",diag_tickTime];};
+if ((local _vehicle) && {isEngineOn _vehicle}) then {
+	_vehicle engineOn false;
 };
 
 if (A3XAI_debugMarkersEnabled) then {

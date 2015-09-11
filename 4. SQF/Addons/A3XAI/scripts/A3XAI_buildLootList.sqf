@@ -11,6 +11,18 @@ _items = [];
 	_items append _x;
 } forEach [_loot0,_loot1];
 
+if !(A3XAI_dynamicLootBlacklist isEqualTo []) then {
+	_items = _items - A3XAI_dynamicLootBlacklist;
+};
+
+{
+	_itemPrice = getNumber(missionConfigFile >> "CfgExileArsenal" >> _x >> "price");
+	if (_itemPrice > A3XAI_itemPriceLimit) then {
+		_items deleteAt _forEachIndex;
+		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Item %1 exceeds price limit of %2.",_x,A3XAI_itemPriceLimit];};
+	};
+} forEach _items;
+
 if !(_items isEqualTo []) then {
 	A3XAI_MiscLoot = _items;
 	if (A3XAI_debugLevel > 0) then {
@@ -22,3 +34,6 @@ if !(_items isEqualTo []) then {
 } else {
 	diag_log "A3XAI Error: Could not dynamically generate loot classname list. Classnames from A3XAI_config.sqf used instead.";
 };
+
+//Cleanup global vars
+A3XAI_dynamicLootBlacklist = nil;

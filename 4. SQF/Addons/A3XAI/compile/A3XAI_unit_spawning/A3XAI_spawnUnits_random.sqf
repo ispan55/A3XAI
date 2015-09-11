@@ -44,7 +44,7 @@ try {
 		} forEach _thisList;
 
 		if (isNull _firstActualPlayer) then {
-			diag_log "CASE 1";
+			//diag_log "CASE 1";
 			throw format ["A3EAI Debug: No players of type %1 found.",PLAYER_UNITS];
 		};
 		
@@ -102,11 +102,11 @@ try {
 
 			true
 		} else {
-			diag_log "CASE 2";
+			//diag_log "CASE 2";
 			throw format ["A3XAI Debug: Conditional checks failed for random spawn at %1. Canceling spawn.",(mapGridPosition _trigger)];
 		};
 	} else {
-		diag_log "CASE 3";
+		//diag_log "CASE 3";
 		throw format ["A3XAI Debug: Probability check failed for random spawn at %1. Canceling spawn.",(mapGridPosition _trigger)];
 
 	};

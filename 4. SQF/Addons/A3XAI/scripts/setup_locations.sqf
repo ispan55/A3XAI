@@ -34,10 +34,10 @@ _traderCityPositions = [];
 
 
 {
-	_location = [_x,900] call A3XAI_createNoAggroArea;
-	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 900m radius no-aggro area at trader city position %1.",_x];};
-	_location = [_x,900] call A3XAI_createBlackListArea;
-	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 900m radius blacklist area at trader city position %1.",_x];};
+	_location = [_x,600] call A3XAI_createNoAggroArea;
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 600m radius no-aggro area at trader city position %1.",_x];};
+	_location = [_x,800] call A3XAI_createBlackListArea;
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 800m radius blacklist area at trader city position %1.",_x];};
 } forEach _traderCityPositions;
 
 {
@@ -85,5 +85,9 @@ if (A3XAI_locationsLand isEqualTo []) then {
 };
 
 A3XAI_locations_ready = true;
+
+//Cleanup global vars
+A3XAI_waypointBlacklistAir = nil;
+A3XAI_waypointBlacklistLand = nil;
 
 if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Location configuration completed with %1 locations found in %2 seconds.",(count A3XAI_locations),(diag_tickTime - _startTime)]};

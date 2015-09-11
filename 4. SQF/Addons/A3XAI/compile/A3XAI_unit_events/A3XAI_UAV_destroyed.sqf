@@ -5,7 +5,7 @@ _vehicle = (_this select 0);
 if (isNull _vehicle) exitWith {};
 if (_vehicle getVariable ["vehicle_disabled",false]) exitWith {};
 _vehicle setVariable ["vehicle_disabled",true];
-{_vehicle removeAllEventHandlers _x} count ["HandleDamage","GetOut","Killed","Hit"];
+{_vehicle removeAllEventHandlers _x} count ["HandleDamage","GetOut","Killed","Hit","Hit"];
 _unitGroup = _vehicle getVariable ["unitGroup",grpNull];
 _vehicle call A3XAI_respawnAIVehicle;
 if !(isNil {_unitGroup getVariable "dummyUnit"}) exitWith {};

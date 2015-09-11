@@ -19,7 +19,7 @@ while {((behaviour (leader _unitGroup)) in ["AWARE","COMBAT"]) && {(_unitGroup g
 		{
 			if ((isPlayer _x) && {(_unitGroup knowsAbout _x) < 3}) then {
 				_unitGroup reveal [_x,3];
-				if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0) then {
+				if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0) then {
 					[_x,[31+(floor (random 5)),[name (leader _unitGroup)]]] call A3XAI_radioSend;
 				};
 			};

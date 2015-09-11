@@ -34,7 +34,6 @@ _vehicle call A3XAI_protectObject;
 _vehicle call A3XAI_secureVehicle;
 _vehicle call A3XAI_clearVehicleCargo;
 _vehicle call A3XAI_addVehAirEH;
-_vehicle call A3XAI_randomizeVehicleColor;
 
 call {
 	if (_vehicle isKindOf "Plane") exitWith {

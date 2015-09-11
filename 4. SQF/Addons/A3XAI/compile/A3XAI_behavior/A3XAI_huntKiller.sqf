@@ -27,6 +27,8 @@ _chaseDistance = _unitGroup getVariable ["patrolDist",250];
 #define TRANSMIT_RANGE 50 //distance to broadcast radio text around target player
 #define RECEIVE_DIST 200 //distance requirement to receive message from AI group leader
 
+_unitGroup setFormDir ([(leader _unitGroup),_targetPlayer] call BIS_fnc_dirTo);
+
 if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 	private ["_targetPlayerPos","_leader","_ableToChase","_marker"];
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Group %1 has entered pursuit state for 180 seconds. Target: %2.",_unitGroup,_targetPlayer];};
@@ -83,13 +85,13 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 							[0,[]] 
 						};
 						{
-							if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0}) then {
+							if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0}) then {
 								[_x,_radioSpeech] call A3XAI_radioSend;
 							};
 						} count _nearbyUnits;
 					} else {
 						{
-							if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0}) then {
+							if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0}) then {
 								[_x,[0,[]]] call A3XAI_radioSend;
 							};
 						} count _nearbyUnits;
@@ -122,7 +124,7 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 					_radioSpeech = [_radioText,[name (leader _unitGroup)]];
 					_nearbyUnits = (getPosASL _targetPlayer) nearEntities [["LandVehicle",PLAYER_UNITS],TRANSMIT_RANGE];
 					{
-						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0}) then {
+						if ((isPlayer _x) && {({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0}) then {
 							[_x,_radioSpeech] call A3XAI_radioSend;
 						};
 					} count _nearbyUnits;

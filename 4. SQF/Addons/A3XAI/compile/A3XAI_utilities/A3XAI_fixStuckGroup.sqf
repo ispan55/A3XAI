@@ -1,6 +1,6 @@
 #define PLAYER_UNITS "Exile_Unit_Player"
 #define SPACE_FOR_OBJECT "Land_Coil_F"
-#define SPACE_FOR_UNIT "i_survivor_F"
+#define DEFAULT_UNIT_CLASSNAME "i_survivor_F"
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
 
 private ["_unitGroup", "_vehicle", "_isInfantry", "_nearPlayers", "_leaderPos", "_newPosEmpty","_unitType","_vehicleType","_leader"];
@@ -55,7 +55,7 @@ if (_isInfantry) then {
 		_vehicle setVelocity [0,0,0.25];
 		{
 			if (((vehicle _x) isEqualTo _x) && {(_x distance _vehicle) > 100}) then {
-				_newUnitPos = [_vehicle,25,random(360),0,[0,0],[25,SPACE_FOR_UNIT]] call SHK_pos;
+				_newUnitPos = [_vehicle,25,random(360),0,[0,0],[25,DEFAULT_UNIT_CLASSNAME]] call SHK_pos;
 				_x setPosATL _newUnitPos;
 				_x setVelocity [0,0,0.25];
 			};

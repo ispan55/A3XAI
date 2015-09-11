@@ -8,7 +8,7 @@ if (isNull _vehicle) exitWith {};
 
 _checkPos = (getWPPos [_unitGroup,(currentWaypoint _unitGroup)]);
 _leader = (leader _unitGroup);
-if (((_leader distance (_leader findNearestEnemy _vehicle)) > 750) && {_checkPos isEqualTo (_unitGroup getVariable ["antistuckPos",[0,0,0]])} && {canMove _vehicle}) then {
+if (((_leader distance (_leader findNearestEnemy _vehicle)) > 350) && {_checkPos isEqualTo (_unitGroup getVariable ["antistuckPos",[0,0,0]])} && {canMove _vehicle}) then {
 	_currentWP = (currentWaypoint _unitGroup);
 	_allWP = (waypoints _unitGroup);
 	_nextWP = _currentWP + 1;

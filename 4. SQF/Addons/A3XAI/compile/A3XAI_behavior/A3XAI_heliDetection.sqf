@@ -38,9 +38,8 @@ if (_unitGroup getVariable ["HeliDetectReady",true]) then {
 					_heliAimPos = aimPos _vehicle;
 					_playerEyePos = eyePos _x;
 					if (((lineIntersectsSurfaces [_heliAimPos,_playerEyePos,_vehicle,_x,true,1]) isEqualTo []) && {A3XAI_airDetectChance call A3XAI_chance}) then {
-					//if (!(terrainIntersectASL [_heliAimPos,_playerEyePos]) && {!(lineIntersects [_heliAimPos,_playerEyePos,_vehicle,_x])} && {A3XAI_airDetectChance call A3XAI_chance}) then { //if no intersection of terrain and objects between helicopter and player, then reveal player
 						_unitGroup reveal [_x,2.5]; 
-						if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (crew (vehicle _x))) > 0) then {
+						if (({if (RADIO_ITEM in (assignedItems _x)) exitWith {1}} count (units (group _x))) > 0) then {
 							[_x,[31+(floor (random 5)),[name (leader _unitGroup)]]] call A3XAI_radioSend;
 						};
 					};
