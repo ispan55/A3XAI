@@ -51,10 +51,10 @@ _traderCityPositions = [];
 			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Added location %1 (type: %2, pos: %3) to location list.",_placeName,_placeType,_placePos];};
 			if !(_placeName in A3XAI_waypointBlacklistAir) then {A3XAI_locationsAir pushBack [_placeName,_placePos,_placeType];};
 			if !((_placeName in A3XAI_waypointBlacklistLand) && {!(surfaceIsWater _placePos)}) then {A3XAI_locationsLand pushBack [_placeName,_placePos,_placeType];};
-			if ((_placeName in A3XAI_waypointBlacklistAir) or {_placeName in A3XAI_waypointBlacklistLand}) then {
+			/*if ((_placeName in A3XAI_waypointBlacklistAir) or {_placeName in A3XAI_waypointBlacklistLand}) then {
 				_location = [_x,700] call A3XAI_createNoAggroArea;
 				if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 700m radius no-aggro area at %1.",_placeName];};
-			};
+			};*/
 		} else {
 			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: %1 not in allowed position. Blacklist (Air): %2, Blacklist (Land): %3.",_placeName,!((toLower _placeName) in A3XAI_waypointBlacklistAir),!((toLower _placeName) in A3XAI_waypointBlacklistLand)];};
 		};
