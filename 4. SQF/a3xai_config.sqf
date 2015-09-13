@@ -181,11 +181,11 @@ A3XAI_enableHealing = true;
 //Affects: All AI air vehicle types (patrols/custom/reinforcement). Does not affect UAV/UGVs.
 A3XAI_removeExplosiveAmmo = true;
 
+//if enabled, AI units suffer no damage from vehicle collisions. (Default: true)
+A3XAI_noCollisionDamage = true;
+
 //If enabled, AI killed by vehicle collisions will have their gear removed (Default: true)
 A3XAI_roadKillPenalty = true;
-
-//if enabled, AI units suffer no damage from vehicle collisions. (Default: false)
-A3XAI_noCollisionDamage = false;
 
 
 /*	Static Infantry AI Spawning Settings

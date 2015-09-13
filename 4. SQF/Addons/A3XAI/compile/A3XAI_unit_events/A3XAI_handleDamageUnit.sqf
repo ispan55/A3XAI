@@ -8,10 +8,10 @@ _ammo = 		_this select 4;				//Classname of the projectile that caused inflicted
 _hitPartIndex = _this select 5;				//Hit part index of the hit point, -1 otherwise.
 
 if (isPlayer _source) then {	
-	if ((_ammo isEqualTo "") && {_hitPartIndex > -1}) then {
+	if (_ammo isEqualTo "") then {
 		call {
 			if (A3XAI_noCollisionDamage) exitWith {_damage = 0;};
-			if ((_damage > 0.9) && {_part isEqualTo ""}) exitWith {_unit setVariable ["CollisionKilled",A3XAI_roadKillPenalty];};
+			if ((_damage >= 0.9) && {_part in ["","body","head"]} && {_hitPartIndex > -1}) exitWith {_unit setVariable ["CollisionKilled",A3XAI_roadKillPenalty];};
 		};
 	};
 } else {
