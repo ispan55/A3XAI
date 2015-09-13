@@ -23,22 +23,24 @@ _cfgWorldName = configFile >> "CfgWorlds" >> worldName >> "Names";
 			private ["_nearbldgs"];
 			if ((_placePos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo []) then {
 				_nearbldgs = _placePos nearObjects ["HouseBase",250];
+				_nearBlacklistedAreas = nearestLocations [_placePos,["A3XAI_BlacklistedArea"],1500];
 				_spawnPoints = 0;
 				{
 					_objType = (typeOf _x);
-					if (!(surfaceIsWater (getPosATL _x)) && {(sizeOf _objType) > 15}) then {
+					_objPos = (getPosATL _x);
+					if (!(surfaceIsWater _objPos) && {(sizeOf _objType) > 15} && {({_objPos in _x} count _nearBlacklistedAreas) isEqualTo 0}) then {
 						_spawnPoints = _spawnPoints + 1;
 					} else {
-						_nearbldgs set [_forEachIndex,objNull];
+						_nearbldgs deleteAt _forEachIndex;
 					};
 				} forEach _nearbldgs;
-				if (objNull in _nearbldgs) then {_nearbldgs = _nearbldgs - [objNull];};
+				//if (objNull in _nearbldgs) then {_nearbldgs = _nearbldgs - [objNull];};
 				if (_spawnPoints > 5) then {
 					_aiCount = [0,0];
 					_unitLevel = 0;
 					_radiusA = getNumber (_cfgWorldName >> (_x select 0) >> "radiusA");
 					_radiusB = getNumber (_cfgWorldName >> (_x select 0) >> "radiusB");
-					_patrolRadius = ((_radiusA min _radiusB) max 125);
+					_patrolRadius = (((_radiusA min _radiusB) max 125) min 300);
 					_spawnChance = 0;
 					_respawnLimit = -1;
 					call {

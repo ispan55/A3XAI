@@ -1,3 +1,6 @@
+#define NO_AGGRO_AREA_SIZE 650
+#define BLACKLIST_AREA_SIZE 600
+
 private ["_cfgWorldName","_startTime","_allPlaces","_allLocations","_traderCityPositions","_traderCityMarkers"];
 
 _startTime = diag_tickTime;
@@ -34,10 +37,10 @@ _traderCityPositions = [];
 
 
 {
-	_location = [_x,600] call A3XAI_createNoAggroArea;
-	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 600m radius no-aggro area at trader city position %1.",_x];};
-	_location = [_x,800] call A3XAI_createBlackListArea;
-	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created 800m radius blacklist area at trader city position %1.",_x];};
+	_location = [_x,NO_AGGRO_AREA_SIZE] call A3XAI_createNoAggroArea;
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created %1m radius no-aggro area at trader city position %2.",NO_AGGRO_AREA_SIZE,_x];};
+	_location = [_x,BLACKLIST_AREA_SIZE] call A3XAI_createBlackListArea;
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Created %1m radius blacklist area at trader city position %2.",BLACKLIST_AREA_SIZE,_x];};
 } forEach _traderCityPositions;
 
 {
@@ -45,7 +48,7 @@ _traderCityPositions = [];
 	if (_placeType in ["namecitycapital","namecity","namevillage","namelocal"]) then {
 		_placeName = getText (_cfgWorldName >> _x >> "name");
 		_placePos = getArray (_cfgWorldName >> _x >> "position");
-		_isAllowedPos = (({(_placePos distance _x) < 900} count _traderCityPositions) isEqualTo 0);
+		_isAllowedPos = (({(_placePos distance _x) < NO_AGGRO_AREA_SIZE} count _traderCityPositions) isEqualTo 0);
 		if (_isAllowedPos) then {
 			A3XAI_locations pushBack [_placeName,_placePos,_placeType];
 			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Added location %1 (type: %2, pos: %3) to location list.",_placeName,_placeType,_placePos];};

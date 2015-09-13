@@ -99,6 +99,7 @@ A3XAI_addUVUnitEH = compileFinal preprocessFileLineNumbers format ["%1\compile\A
 A3XAI_addVehAirEH = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addVehAirEH.sqf",A3XAI_directory];
 A3XAI_addVehicleGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addVehicleGroup.sqf",A3XAI_directory];
 A3XAI_addParaGroup = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_addParaGroup.sqf",A3XAI_directory];
+A3XAI_avoidNoAggroArea = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_avoidNoAggroArea.sqf",A3XAI_directory]; 
 A3XAI_chance = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_chance.sqf",A3XAI_directory];
 A3XAI_checkClassname = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_checkClassname.sqf",A3XAI_directory];
 A3XAI_checkInNoAggroArea = compileFinal preprocessFileLineNumbers format ["%1\compile\A3XAI_utilities\A3XAI_checkInNoAggroArea.sqf",A3XAI_directory];

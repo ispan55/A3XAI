@@ -13,7 +13,7 @@ _objectPos = getPosATL _object;
 } forEach _nearNoAggroAreas;
 
 if (_inNoAggroArea) then {
-	if (((combatMode _unitGroup) isEqualTo "YELLOW") && {((_unitGroup getVariable ["TimeLastUnitKilled",-180]) - diag_tickTime) > 180}) then {
+	if (((combatMode _unitGroup) isEqualTo "YELLOW") && {(diag_tickTime - (_unitGroup getVariable ["TimeLastUnitKilled",-180])) > 180}) then {
 		[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 in no-aggro zone.",_unitGroup];};
 	};

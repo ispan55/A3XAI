@@ -1,7 +1,7 @@
 #define RADIO_ITEM "ItemRadio"
 #define PLAYER_UNITS "Exile_Unit_Player"
 
-private ["_unitGroup","_targetPlayer","_startPos","_chaseDistance","_enableHCReady"];
+private ["_unitGroup","_targetPlayer","_startPos","_chaseDistance","_enableHCReady","_nearBlacklistedAreas"];
 
 _targetPlayer = _this select 0;
 _unitGroup = _this select 1;
@@ -23,6 +23,7 @@ if (_unitGroup getVariable ["HC_Ready",false]) then { //If HC mode enabled and A
 
 _startPos = _unitGroup getVariable ["trigger",(getPosASL (leader _unitGroup))];
 _chaseDistance = _unitGroup getVariable ["patrolDist",250];
+_nearBlacklistedAreas = nearestLocations [_targetPlayer,["A3XAI_BlacklistedArea"],1500];
 
 #define TRANSMIT_RANGE 50 //distance to broadcast radio text around target player
 #define RECEIVE_DIST 200 //distance requirement to receive message from AI group leader
@@ -32,9 +33,7 @@ _unitGroup setFormDir ([(leader _unitGroup),_targetPlayer] call BIS_fnc_dirTo);
 if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 	private ["_targetPlayerPos","_leader","_ableToChase","_marker"];
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Group %1 has entered pursuit state for 180 seconds. Target: %2.",_unitGroup,_targetPlayer];};
-	
-	//_unitGroup lockWP true;
-	
+
 	//Set pursuit timer
 	_unitGroup setVariable ["pursuitTime",diag_tickTime+180];
 	_unitGroup setVariable ["targetKiller",name _targetPlayer];
@@ -60,12 +59,14 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 		{(vehicle _targetPlayer) isKindOf "Land"}
 	} do {
 		_targetPlayerPos = getPosATL _targetPlayer;
-		if ((_unitGroup knowsAbout _targetPlayer) < 4) then {_unitGroup reveal [_targetPlayer,4]};
-		(units _unitGroup) doMove _targetPlayerPos;
-
+		if (({_targetPlayerPos in _x} count _nearBlacklistedAreas) isEqualTo 0) then {
+			if ((_unitGroup knowsAbout _targetPlayer) < 4) then {_unitGroup reveal [_targetPlayer,4]};
+			(units _unitGroup) doMove _targetPlayerPos;
+		};
+		
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: AI group %1 in pursuit state. Pursuit time remaining: %2 seconds.",_unitGroup,(_unitGroup getVariable ["pursuitTime",0]) - diag_tickTime];};
 		
-		if ((A3XAI_radioMsgs) && {0.6 call A3XAI_chance}) then {
+		if ((A3XAI_radioMsgs) && {0.7 call A3XAI_chance}) then {
 			_leader = (leader _unitGroup);
 			if ((alive _leader) && {(_targetPlayer distance _leader) <= RECEIVE_DIST}) then {
 				_nearbyUnits = _targetPlayerPos nearEntities [[PLAYER_UNITS,"LandVehicle"],TRANSMIT_RANGE];
