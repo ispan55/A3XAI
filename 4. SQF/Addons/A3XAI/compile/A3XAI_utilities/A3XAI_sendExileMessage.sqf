@@ -3,10 +3,7 @@ _player = _this select 0;
 _messageName = _this select 1;
 _messageParameters = _this select 2;
 
-PublicMessage = [_messageName, _messageParameters];
-
-(owner _player) publicVariableClient "PublicMessage";
-
-PublicMessage = nil;
+_publicMessage = [_messageName, _messageParameters];
+_publicMessage remoteExecCall ["ExileClient_system_network_dispatchIncomingMessage",(owner _player)];
 
 true

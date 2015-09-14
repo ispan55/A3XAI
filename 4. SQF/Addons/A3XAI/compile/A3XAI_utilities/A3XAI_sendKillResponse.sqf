@@ -97,8 +97,9 @@ if (A3XAI_deathMessages) then {
 	
 	{
 		if (isPlayer _x) then {
-			A3XAI_killMSG = _killMessage; //Non-global version
-			(owner _x) publicVariableClient "A3XAI_killMSG";
+			//A3XAI_killMSG = _killMessage; //Non-global version
+			//(owner _x) publicVariableClient "A3XAI_killMSG";
+			[_x, "systemChatRequest", [_killMessage]] call A3XAI_sendExileMessage;
 		};
 	} count (crew _killer);
 };

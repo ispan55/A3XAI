@@ -54,12 +54,12 @@ if (_ammo != "") then {
 	};
 	if (_disabled) then {
 		0 = [_vehicle] call A3XAI_heliEvacuated; 
-		{_vehicle removeAllEventHandlers _x} forEach ["HandleDamage","GetOut","Killed","Hit"];
-		_nul = _vehicle spawn {
-			uiSleep 3;
-			_this setVehicleAmmo 0;
-			_this setFuel 0;
-			if (_destroyed) then {
+		//{_vehicle removeAllEventHandlers _x} forEach ["HandleDamage","GetOut","Killed","Hit"];
+		if (_destroyed) then {
+			_nul = _vehicle spawn {
+				uiSleep 3;
+				_this setVehicleAmmo 0;
+				_this setFuel 0;
 				_this setDamage 1;
 			};
 		};
