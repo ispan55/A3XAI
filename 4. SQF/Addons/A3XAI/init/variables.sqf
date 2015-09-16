@@ -46,5 +46,4 @@ A3XAI_spawnChanceMultiplier = 1;
 A3XAI_HCAllowedTypes = ["static", "dynamic", "random", "air", "land", "staticcustom", "aircustom", "landcustom", "vehiclecrew", "air_reinforce", "uav", "ugv"];
 A3XAI_lastGroupTransfer = 0;
 A3XAI_automatedUnitTypes = ["uav","ugv"];
-A3XAI_kryptoAreas = [];
-A3XAI_kryptoObjects = [];
+A3XAI_noAggroAreas = [];

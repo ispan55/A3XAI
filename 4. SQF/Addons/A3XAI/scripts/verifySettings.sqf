@@ -94,7 +94,7 @@ _startTime = diag_tickTime;
 	["A3XAI_addAI_village",1],
 	["A3XAI_unitLevel_village",0],
 	["A3XAI_minAI_remoteArea",1],
-	["A3XAI_addAI_remoteArea",1],
+	["A3XAI_addAI_remoteArea",2],
 	["A3XAI_unitLevel_remoteArea",2],
 	["A3XAI_minAI_wilderness",1],
 	["A3XAI_addAI_wilderness",1],

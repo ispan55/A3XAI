@@ -1,4 +1,4 @@
-#define NO_AGGRO_AREA_SIZE 650
+#define NO_AGGRO_AREA_SIZE 700
 #define BLACKLIST_AREA_SIZE 600
 
 private ["_cfgWorldName","_startTime","_allPlaces","_allLocations","_traderCityPositions","_traderCityMarkers"];
@@ -31,7 +31,7 @@ _traderCityPositions = [];
 {
 	if ((markerType _x) isEqualTo "ExileTraderZone") then {
 		_traderCityPositions pushBack (getMarkerPos _x);
-		if (A3XAI_debugLevel > 0) then {diag_log format ["Debug: Found trader marker %1",_x];};
+		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Found trader marker %1",_x];};
 	};
 } forEach allMapMarkers;
 

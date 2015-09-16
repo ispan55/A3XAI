@@ -1,3 +1,5 @@
+#define NEAREST_ENEMY_RANGE 350
+
 private ["_unitGroup", "_vehicle", "_stuckCheckTime", "_checkPos", "_currentWP", "_allWP", "_nextWP","_leader"];
 
 _unitGroup = _this select 0;
@@ -8,7 +10,7 @@ if (isNull _vehicle) exitWith {};
 
 _checkPos = (getWPPos [_unitGroup,(currentWaypoint _unitGroup)]);
 _leader = (leader _unitGroup);
-if (((_leader distance (_leader findNearestEnemy _vehicle)) > 350) && {_checkPos isEqualTo (_unitGroup getVariable ["antistuckPos",[0,0,0]])} && {canMove _vehicle}) then {
+if ((((_leader distance (_leader findNearestEnemy _vehicle)) > NEAREST_ENEMY_RANGE) or {_checkPos call A3XAI_checkInNoAggroArea}) && {_checkPos isEqualTo (_unitGroup getVariable ["antistuckPos",[0,0,0]])} && {canMove _vehicle}) then {
 	_currentWP = (currentWaypoint _unitGroup);
 	_allWP = (waypoints _unitGroup);
 	_nextWP = _currentWP + 1;

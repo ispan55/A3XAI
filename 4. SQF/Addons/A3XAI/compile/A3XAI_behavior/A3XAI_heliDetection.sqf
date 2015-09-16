@@ -25,7 +25,7 @@ if (_unitGroup getVariable ["HeliDetectReady",true]) then {
 		_canReveal = !((combatMode _unitGroup) isEqualTo "BLUE");
 		_detected = _vehPos nearEntities [[PLAYER_UNITS,"LandVehicle"],500];
 		if ((count _detected) > 5) then {_detected resize 5};
-		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {nearestLocations [_vehPos,["A3XAI_NoAggroArea"],1500]};
+		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {A3XAI_noAggroAreas};
 		{
 			_playerPos = getPosATL _x;
 			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearNoAggroAreas) isEqualTo 0}) then {

@@ -22,7 +22,7 @@ if ((diag_tickTime - (_unitGroup getVariable ["UVLastCall",-A3XAI_UGVCallReinfor
 		_detectOrigin = [_startPos,0,getDir _vehicle,1] call SHK_pos;
 		_detected = _detectOrigin nearEntities [[PLAYER_UNITS,"LandVehicle"],250];
 		if ((count _detected) > 5) then {_detected resize 5};
-		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {nearestLocations [_vehPos,["A3XAI_NoAggroArea"],1500]};
+		_nearNoAggroAreas = if (_detected isEqualTo []) then {[]} else {A3XAI_noAggroAreas};
 		{
 			_playerPos = getPosATL _x;
 			if ((isPlayer _x) && {({if (_playerPos in _x) exitWith {1}} count _nearNoAggroAreas) isEqualTo 0}) then {

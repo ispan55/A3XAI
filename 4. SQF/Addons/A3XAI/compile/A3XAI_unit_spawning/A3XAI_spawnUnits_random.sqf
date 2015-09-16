@@ -45,7 +45,7 @@ try {
 
 		if (isNull _firstActualPlayer) then {
 			//diag_log "CASE 1";
-			throw format ["A3EAI Debug: No players of type %1 found.",PLAYER_UNITS];
+			throw format ["A3XAI Debug: No players of type %1 found.",PLAYER_UNITS];
 		};
 		
 		_triggerPos = getPosATL _trigger;

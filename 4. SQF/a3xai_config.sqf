@@ -142,7 +142,7 @@ A3XAI_spawnChance_capitalCity = 0.70; //0.70
 
 //(Static/Dynamic/Random Spawns) minAI: Minimum number of units. addAI: maximum number of additional units. unitLevel: Unit level (0-3)
 A3XAI_minAI_remoteArea = 1; //1
-A3XAI_addAI_remoteArea = 1; //1
+A3XAI_addAI_remoteArea = 2; //2
 A3XAI_unitLevel_remoteArea = 2; //2
 A3XAI_spawnChance_remoteArea = 0.80; //0.80
 

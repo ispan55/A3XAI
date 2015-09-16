@@ -1,4 +1,4 @@
-private ["_unitGroup", "_vehicle", "_lastAggro", "_lastRepaired", "_vehicleType", "_hitArray", "_hitName", "_hitPoint","_inNoAggroArea"];
+private ["_unitGroup", "_vehicle", "_lastAggro", "_lastRepaired", "_vehicleType", "_hitArray", "_hitName", "_hitPoint","_inNoAggroArea","_inArea"];
 
 _unitGroup = _this select 0;
 _vehicle = _this select 1;
@@ -17,7 +17,10 @@ if (A3XAI_UGVDetectOnly) then {
 		};
 	};
 } else {
-	_this call A3XAI_checkInNoAggroArea;
+	_inArea = _vehicle call A3XAI_checkInNoAggroArea;
+	if (_inArea) then {
+		[_unitGroup,_inArea] call A3XAI_noAggroAreaToggle;
+	};
 };
 
 _lastRepaired = _vehicle getVariable "LastRepaired";

@@ -72,7 +72,7 @@ _unitGroup setVariable ["assignedVehicle",_vehicle];
 _unitGroup setVariable ["ReinforcePos",_destPos];
 (units _unitGroup) allowGetIn true;
 
-_vehicle flyInHeight 115;
+_vehicle flyInHeight 100;
 
 if (A3XAI_removeExplosiveAmmo) then {
 	_result = _vehicle call A3XAI_removeExplosive; //Remove missile weaponry for air vehicles
