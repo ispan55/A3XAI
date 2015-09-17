@@ -1,9 +1,9 @@
 private ["_action", "_unitGroup"];
 
-_action = (_this select 1);
+_action = _this select 1;
+_unitGroup = _this select 0;
 
 if (_action isEqualTo "IgnoreEnemies") exitWith {
-	_unitGroup = _this select 0;
 	_unitGroup setBehaviour "CARELESS";
 	_unitGroup setCombatMode "BLUE";
 	{_x doWatch objNull} forEach (units _unitGroup);
