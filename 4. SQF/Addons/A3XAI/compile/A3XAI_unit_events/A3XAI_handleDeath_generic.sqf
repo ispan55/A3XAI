@@ -4,10 +4,13 @@ _victim = _this select 0;
 _killer = _this select 1;
 _unitGroup = _this select 2;
 _unitType = _this select 3;
-_unitsAlive = if ((count _this) > 4) then {_this select 4} else {0};
+_unitsAlive = _this select 4;
 
-if (isPlayer _killer) then {
-	if !(_victim getVariable ["CollisionKilled",false]) then {
+try {
+	if (isPlayer _killer) then {
+		if !(_victim getVariable ["CollisionKilled",false]) then {
+			throw format ["A3XAI Debug: %1 AI unit %2 was killed by collision damage caused by %3. Unit gear cleared.",_unitType,_victim,_killer];
+		};
 		_unitLevel = _unitGroup getVariable ["unitLevel",1];
 		if (isDedicated) then {
 			0 = [_victim,_unitLevel] spawn A3XAI_generateLoot;
@@ -16,13 +19,14 @@ if (isPlayer _killer) then {
 			publicVariableServer "A3XAI_generateLoot_PVS";
 		};
 	} else {
-		_victim call A3XAI_purgeUnitGear;
-		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: %1 AI unit %2 was killed by collision damage caused by %3. Unit gear cleared.",_unitType,_victim,_killer]};
+		if (_killer isEqualTo _victim) then {
+			throw format ["A3XAI Debug: %1 AI unit %2 was killed by self. Unit gear cleared.",_unitType,_victim];
+		};
 	};
-} else {
-	if (_killer isEqualTo _victim) then {
-		_victim call A3XAI_purgeUnitGear;
-		if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: %1 AI unit %2 was killed by self. Unit gear cleared.",_unitType,_victim]};
+} catch {
+	_victim call A3XAI_purgeUnitGear;
+	if (A3XAI_debugLevel > 0) then {
+		diag_log _exception;
 	};
 };
 

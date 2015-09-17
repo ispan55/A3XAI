@@ -20,13 +20,13 @@ if (isDedicated) then {
 		[3,_vehicleType] call A3XAI_addRespawnQueue;
 		if (_vehicleType isKindOf "Air") then {A3XAI_curUAVPatrols = A3XAI_curUAVPatrols - 1} else {A3XAI_curUGVPatrols = A3XAI_curUGVPatrols - 1};
 	};
-	if (A3XAI_vehiclesAllowedForPlayers) then {
+	if ((alive _vehicle) && {A3XAI_vehiclesAllowedForPlayers}) then {
 		_vehicle call A3XAI_releaseVehicleAllow;
 	} else {
-		_vehicle setVariable ["A3XAI_deathTime",diag_tickTime]; //mark vehicle for cleanup
 		{_vehicle removeAllEventHandlers _x} count ["HandleDamage","Killed","GetOut","Local","Hit"];
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Respawning AI %1.",(typeOf _vehicle)]};
 	};
+	_vehicle setVariable ["A3XAI_deathTime",diag_tickTime]; //mark vehicle for cleanup
 } else {
 	A3XAI_respawnVehicle_PVS = _vehicle;
 	publicVariableServer "A3XAI_respawnVehicle_PVS";

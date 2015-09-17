@@ -4,7 +4,7 @@ _unitGroup = _this select 0;
 _inNoAggroArea = _this select 1;
 
 if (_inNoAggroArea) then {
-	if (((combatMode _unitGroup) isEqualTo "YELLOW") && {(diag_tickTime - (_unitGroup getVariable ["TimeLastUnitKilled",-180])) > 180}) then {
+	if (((combatMode _unitGroup) in ["YELLOW","RED"]) && {(diag_tickTime - (_unitGroup getVariable ["TimeLastUnitKilled",-180])) > 180}) then {
 		[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 in no-aggro zone.",_unitGroup];};
 	};

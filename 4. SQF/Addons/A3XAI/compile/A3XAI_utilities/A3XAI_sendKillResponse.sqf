@@ -81,6 +81,7 @@ if (A3XAI_enableRespectRewards) then {
 	_killer call ExileServer_object_player_sendStatsUpdate;
 };
 
+
 if (A3XAI_deathMessages) then {
 	_killMessage = format ["%1 was killed by %2", _victim getVariable ["bodyName","Bandit"], (name _killer)];
 

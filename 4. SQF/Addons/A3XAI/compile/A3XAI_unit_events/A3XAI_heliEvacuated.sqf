@@ -7,7 +7,15 @@ if (_vehicle getVariable ["vehicle_disabled",false]) exitWith {};
 
 {_vehicle removeAllEventHandlers _x} count ["HandleDamage","GetOut","Killed","Hit"];
 _vehicle setVariable ["vehicle_disabled",true];
-if !((_unitGroup getVariable ["unitType",""]) isEqualTo "air_reinforce") then {_vehicle call A3XAI_respawnAIVehicle;};
+
+if ((_unitGroup getVariable ["unitType",""]) isEqualTo "air_reinforce") then {
+	if (A3XAI_vehiclesAllowedForPlayers) then {
+		_vehicle call A3XAI_releaseVehicleAllow;
+	};
+} else {
+	_vehicle call A3XAI_respawnAIVehicle;
+};
+
 _vehiclePos = getPosATL _vehicle;
 
 if (isNil {_unitGroup getVariable "dummyUnit"}) then {
