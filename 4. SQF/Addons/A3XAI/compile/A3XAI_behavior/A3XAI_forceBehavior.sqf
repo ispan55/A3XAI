@@ -1,3 +1,5 @@
+private ["_action", "_unitGroup"];
+
 _action = (_this select 1);
 
 if (_action isEqualTo "IgnoreEnemies") exitWith {

@@ -7,7 +7,7 @@ _source = 		_this select 3;				//The source unit that caused the damage.
 _ammo = 		_this select 4;				//Classname of the projectile that caused inflicted the damage. ("" for unknown, such as falling damage.) 
 _hitPartIndex = _this select 5;				//Hit part index of the hit point, -1 otherwise.
 
-if ((group _vehicle) call A3XAI_getNoAggroStatus) exitWith {};
+if ((group _vehicle) call A3XAI_getNoAggroStatus) exitWith {0};
 
 _durability = _vehicle getVariable "durability";
 if (isNil "_durability") then {
