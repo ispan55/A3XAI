@@ -13,12 +13,6 @@ A3XAI_client_radio = true;
 //Enables sound notifications when displaying radio messages
 A3XAI_client_radioSounds = true;
 
-//Enables death messages to be displayed to players who kill AI units. A3XAI_deathMessages must be set 'true' in A3XAI_config.sqf
-A3XAI_client_deathMessages = true;
-
-//Enables sound notifications when displaying death messages (Exile-style)
-A3XAI_client_deathMessageSound = true;
-
 
 /*	A3XAI Text String Settings
 --------------------------------------------------------------------------------------------------------------------*/	

@@ -8,7 +8,7 @@ _unitsAlive = _this select 4;
 
 try {
 	if (isPlayer _killer) then {
-		if !(_victim getVariable ["CollisionKilled",false]) then {
+		if (_victim getVariable ["CollisionKilled",false]) then {
 			throw format ["A3XAI Debug: %1 AI unit %2 was killed by collision damage caused by %3. Unit gear cleared.",_unitType,_victim,_killer];
 		};
 		_unitLevel = _unitGroup getVariable ["unitLevel",1];

@@ -10,8 +10,8 @@ _startTime = diag_tickTime;
 } forEach [
 	["A3XAI_client_radio",true],
 	["A3XAI_client_radioSounds",true],
-	["A3XAI_client_deathMessages",true],
-	["A3XAI_client_deathMessageSound",true],
+	//["A3XAI_client_deathMessages",true],
+	//["A3XAI_client_deathMessageSound",true],
 	["A3XAI_client_radioMessage0","[RADIO] Your radio is picking up a signal nearby."],
 	["A3XAI_client_radioMessage1","[RADIO] %1: %2 is in this area. Stay on alert!"],
 	["A3XAI_client_radioMessage2","[RADIO] %1: Target looks like a %2. Find them!"],

@@ -103,10 +103,10 @@ A3XAI_dynamicLootBlacklist = [];
 /*	A3XAI Client Addon features. These features require the A3XAI client addon to be installed in order to work.
 --------------------------------------------------------------------------------------------------------------------*/	
 
-//Enable or disable radio message receiving. Players with radios will be able to intercept some AI communications. (Default: false)
+//Enable or disable radio message receiving. Players with radios or part of a group with at least one radio will be able to intercept some AI communications. (Default: false)
 A3XAI_radioMsgs = false;
 
-//Enable or disable AI death messages. Messages will be sent only to player responsible for killing the unit. Messages will be sent in System chat in the format "(Unit name) was killed." (Default: false)
+//Enable or disable AI death messages. Messages will be visible to all group members of player responsible for killing the AI unit. (Default: false)
 A3XAI_deathMessages = false;
 
 

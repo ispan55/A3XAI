@@ -4,12 +4,18 @@ _killer = _this select 0;
 _victim = _this select 1;
 
 _fragAttributes = [];
+_killerPlayerUID = getPlayerUID _killer;
+_vehicleKiller = (vehicle _killer);
+
+{
+	if ((getPlayerUID _x) isEqualTo _killerPlayerUID) exitWith {
+		_killer = _x;
+	};
+} forEach (crew _vehicleKiller);
 
 if (A3XAI_enableRespectRewards) then {
 	_killerRespectPoints = [];
-	_killerPlayerUID = getPlayerUID _killer;
-
-	_vehicleKiller = (vehicle _killer);
+	
 	if (_vehicleKiller isEqualTo _killer) then {
 		if (currentWeapon _killer isEqualTo "Exile_Melee_Axe") then {
 			if (A3XAI_respect_humiliationBonus > 0) then {
@@ -98,11 +104,9 @@ if (A3XAI_deathMessages) then {
 	
 	{
 		if (isPlayer _x) then {
-			//A3XAI_killMSG = _killMessage; //Non-global version
-			//(owner _x) publicVariableClient "A3XAI_killMSG";
 			[_x, "systemChatRequest", [_killMessage]] call A3XAI_sendExileMessage;
 		};
-	} count (crew _killer);
+	} count (units (group _killer));
 };
 
 true
