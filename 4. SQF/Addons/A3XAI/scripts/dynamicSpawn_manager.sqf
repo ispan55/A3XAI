@@ -85,7 +85,7 @@ while {true} do {
 						_trigger setVariable ["targetplayerUID",_playerUID];
 						//_trigActStatements = format ["0 = [150,thisTrigger,%1,%2,%3] call A3XAI_spawnUnits_dynamic;",_spawnParams select 0,_spawnParams select 1,_spawnParams select 2];
 						_trigger setTriggerStatements ["{if (isPlayer _x) exitWith {1}} count thisList != 0;","", "[thisTrigger] spawn A3XAI_despawn_dynamic;"];
-						if (A3XAI_debugMarkersEnabled) then {
+						if (A3XAI_enableDebugMarkers) then {
 							_nul = _trigger spawn {
 								_marker = str(_this);
 								if (_marker in allMapMarkers) then {deleteMarker _marker};

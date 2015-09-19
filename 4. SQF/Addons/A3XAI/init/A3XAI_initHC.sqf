@@ -14,15 +14,8 @@ A3XAI_HCPlayerLoggedIn = false;
 A3XAI_HCGroupsCount = 0;
 A3XAI_enableHC = true;
 
-if (isNil "A3XAI_devOptions") then {
-	A3XAI_overrideEnabled = nil;
-	A3XAI_debugMarkersEnabled = false;
-} else {
-	if !((typeName A3XAI_devOptions) isEqualTo "ARRAY") then {A3XAI_devOptions = []};
-	if ("readoverridefile" in A3XAI_devOptions) then {A3XAI_overrideEnabled = true} else {A3XAI_overrideEnabled = nil};
-	if ("enabledebugmarkers" in A3XAI_devOptions) then {A3XAI_debugMarkersEnabled = true} else {A3XAI_debugMarkersEnabled = false};
-	A3XAI_devOptions = nil;
-};
+A3XAI_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
+A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
 if (isNil "A3XAI_ServerDir") then {
 	A3XAI_ServerDir = "@exileserver";
@@ -73,7 +66,7 @@ _nul = [] spawn {
 	diag_log "[A3XAI] Loading A3XAI configuration file...";
 	call compile preprocessFileLineNumbers format ["%1\A3XAI_config.sqf",A3XAI_ServerDir];
 	call compile preprocessFileLineNumbers format ["%1\scripts\verifySettings.sqf",A3XAI_directory];
-	if ((!isNil "A3XAI_overrideEnabled") && {A3XAI_overrideEnabled}) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
+	if (A3XAI_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
 	
 	//Load internal use variables
 	call compile preprocessFileLineNumbers format ["%1\init\variables.sqf",A3XAI_directory];
@@ -125,26 +118,4 @@ _nul = [] spawn {
 	diag_log "[A3XAI] Headless client connection successful. HC authorization request granted.";
 	
 	_serverMonitor = [] execVM format ['%1\compile\A3XAI_headlessclient\A3XAI_HCMonitor.sqf',A3XAI_directory];
-	
-	/*
-	_exileVariables = [];
-	{
-		if (((toLower _x) find "exile") > -1) then {
-			_exileVariables pushBack _x;
-		};
-	} forEach allVariables missionNamespace;
-	
-	if (_exileVariables isEqualTo []) then {
-		diag_log "No Exile variables found!";
-	} else {
-		diag_log format ["Found %1 Exile variables",count _exileVariables];
-		diag_log format ["%1",_exileVariables];
-	};
-	
-	while {true} do {
-		diag_log str (typeOf player);
-		uiSleep 15;
-	};
-	
-	*/
 };

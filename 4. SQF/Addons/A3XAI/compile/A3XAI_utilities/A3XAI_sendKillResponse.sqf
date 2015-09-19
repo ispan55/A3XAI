@@ -31,15 +31,17 @@ if (A3XAI_enableRespectRewards) then {
 			};
 		};
 	} else {
-		if ((driver _vehicleKiller) isEqualTo _killer) then {
-			if (A3XAI_respect_roadkillBonus > 0) then {
-				_fragAttributes pushBack "Road Kill";
-				_killerRespectPoints pushBack ["Road Kill", A3XAI_respect_roadkillBonus];
+		if (_victim getVariable ["CollisionKilled",false]) then {
+			if ((driver _vehicleKiller) isEqualTo _killer) then {
+				if (A3XAI_respect_roadkillBonus > 0) then {
+					_fragAttributes pushBack "Road Kill";
+					_killerRespectPoints pushBack ["Road Kill", A3XAI_respect_roadkillBonus];
+				};
 			};
-		} else {	
-			if (A3XAI_respect_madpassengerBonus > 0) then {
-				_fragAttributes pushBack "Passenger";
-				_killerRespectPoints pushBack ["MAD PASSENGER", A3XAI_respect_madpassengerBonus];
+		} else {
+			if (A3XAI_respect_vehicleWeaponKillBonus > 0) then {
+				_fragAttributes pushBack "Vehicle Weapon Kill";
+				_killerRespectPoints pushBack ["VEHICLE WEAPON KILL", A3XAI_respect_vehicleWeaponKillBonus];
 			};
 		};
 	};

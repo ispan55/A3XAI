@@ -39,7 +39,7 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 	_unitGroup setVariable ["targetKiller",name _targetPlayer];
 	
 	
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		_markername = format ["%1 Target",_unitGroup];
 		if (_markername in allMapMarkers) then {deleteMarker _markername; uiSleep 0.5;};
 		_marker = createMarker [_markername,getPosASL _targetPlayer];
@@ -100,7 +100,7 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 				};
 			};
 		};
-		if (A3XAI_debugMarkersEnabled) then {
+		if (A3XAI_enableDebugMarkers) then {
 			_marker setMarkerPos (getPosASL _targetPlayer);
 		};
 		_ableToChase = ((!isNull _unitGroup) && {diag_tickTime < (_unitGroup getVariable ["pursuitTime",0])} && {(_unitGroup getVariable ["GroupSize",0]) > 0});
@@ -138,7 +138,7 @@ if ((_startPos distance _targetPlayer) < _chaseDistance) then {
 		};
 	};
 	
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		deleteMarker _marker;
 	};
 };

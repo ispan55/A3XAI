@@ -20,7 +20,7 @@ if (_grpArray isEqualTo []) then {
 					_trigger setTriggerStatements _triggerStatements;
 					[_trigger,"A3XAI_staticTriggerArray"] call A3XAI_updateSpawnCount;
 					0 = _args call A3XAI_spawnInfantryCustom;
-					if (A3XAI_debugMarkersEnabled) then {_nul = _trigger call A3XAI_addMapMarker;};
+					if (A3XAI_enableDebugMarkers) then {_nul = _trigger call A3XAI_addMapMarker;};
 					uiSleep 1;
 				};
 				A3XAI_customInfantrySpawnQueue deleteAt 0;
@@ -36,7 +36,7 @@ if (_grpArray isEqualTo []) then {
 	_trigger setTriggerStatements _triggerStatements;
 	_trigger setTriggerArea [750,750,0,false];
 	[_trigger,"A3XAI_staticTriggerArray"] call A3XAI_updateSpawnCount;
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		_nul = _trigger call A3XAI_addMapMarker;
 	};
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Maximum number of groups already spawned at custom %1. Exiting spawn script.",(triggerText _trigger)];};

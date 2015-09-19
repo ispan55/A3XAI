@@ -11,7 +11,7 @@ _trigger = call {
 	_this
 };
 
-if (A3XAI_debugMarkersEnabled) then {deleteMarker str(_trigger)};
+if (A3XAI_enableDebugMarkers) then {deleteMarker str(_trigger)};
 _trigger setTriggerStatements ["this","true","false"]; //Disable trigger from activating or deactivating while cleanup is performed
 if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Deleting custom-defined AI spawn %1 at %2 in 30 seconds.",triggerText _trigger, mapGridPosition _trigger];};
 uiSleep 30;

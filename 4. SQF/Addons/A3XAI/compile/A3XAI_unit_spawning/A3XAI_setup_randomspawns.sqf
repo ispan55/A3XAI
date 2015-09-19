@@ -48,7 +48,7 @@ for "_i" from 1 to _maxRandomSpawns do {
 		_trigger setTriggerActivation ["ANY", "PRESENT", true];
 		_trigger setTriggerTimeout [3, 3, 3, true];
 		_trigger setTriggerStatements ["{if (isPlayer _x) exitWith {1}} count thisList != 0;",_onActStatements,"[thisTrigger] spawn A3XAI_despawn_random;"];
-		if (A3XAI_debugMarkersEnabled) then {
+		if (A3XAI_enableDebugMarkers) then {
 			_markername = str(_trigger);
 			_marker = createMarker[_markername,_trigPos];
 			_marker setMarkerShape "ELLIPSE";

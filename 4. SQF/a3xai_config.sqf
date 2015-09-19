@@ -83,7 +83,7 @@ A3XAI_dynamicVestBlacklist = [];
 
 //true: Generate AI headgear types from Exile trader tables (Default)
 //false: Headgear defined by A3XAI_headgearTypes0, A3XAI_headgearTypes1, A3XAI_headgearTypes2, A3XAI_headgearTypes3
-//A3XAI_dynamicOpticsBlacklist: List of headgear classnames to ignore from Exile trader tables.
+//A3XAI_dynamicHeadgearBlacklist: List of headgear classnames to ignore from Exile trader tables.
 A3XAI_dynamicHeadgearList = true;
 A3XAI_dynamicHeadgearBlacklist = [];
 
@@ -637,11 +637,11 @@ A3XAI_respect_humiliationBonus = 300;
 //Respect bonus for standard kills
 A3XAI_respect_fraggedBonus = 100;
 
-//Respect bonus for kills by vehicle driver
+//Respect bonus for collision kills by vehicle driver
 A3XAI_respect_roadkillBonus = 500;
 
-//Respect bonus for kills by vehicle passenger
-A3XAI_respect_madpassengerBonus = 400;
+//Respect bonus for kills with vehicle weapons
+A3XAI_respect_vehicleWeaponKillBonus = 400;
 
 //Respect bonus per kill streak
 A3XAI_respect_killstreakBonus = 50;
@@ -705,7 +705,7 @@ A3XAI_headgearTypes3 = ["H_Cap_blk","H_Cap_blk_Raven","H_Cap_blu","H_Cap_brn_SPE
 // Note: A3XAI_miscLoot will not be read if A3XAI_dynamicLootList is enabled.
 //------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 A3XAI_foodLoot = ["Exile_Item_GloriousKnakworst","Exile_Item_SausageGravy","Exile_Item_ChristmasTinner","Exile_Item_BBQSandwich","Exile_Item_Surstromming","Exile_Item_Catfood","Exile_Item_PlasticBottleFreshWater","Exile_Item_Beer","Exile_Item_Energydrink"];
-A3XAI_miscLoot = ["Exile_Item_Rope","Exile_Item_DuctTape","Exile_Item_ExtensionCord","Exile_Item_FuelCanisterEmpty","Exile_Item_JunkMetal","Exile_Item_LightBulb","Exile_Item_MetalBoard","Exile_Item_MetalPole","Exile_Item_SafeKit","Exile_Item_CamoTentKit","Exile_Item_CodeLock","Exile_Item_InstaDoc"];
+A3XAI_miscLoot = ["Exile_Item_Rope","Exile_Item_DuctTape","Exile_Item_ExtensionCord","Exile_Item_FuelCanisterEmpty","Exile_Item_JunkMetal","Exile_Item_LightBulb","Exile_Item_MetalBoard","Exile_Item_MetalPole","Exile_Item_CamoTentKit","Exile_Item_InstaDoc"];
 
 
 //AI toolbelt item types. Toolbelt items are added to AI inventory upon death. Format: [item classname, item probability]

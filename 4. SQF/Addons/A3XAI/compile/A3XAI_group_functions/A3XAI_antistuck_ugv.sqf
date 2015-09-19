@@ -23,7 +23,7 @@ if ((((_leader distance (_leader findNearestEnemy _vehicle)) > NEAREST_ENEMY_RAN
 		if (!(_vehicle getVariable ["vehicle_disabled",false])) then {
 			[_vehicle] call A3XAI_UGV_destroyed;
 			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: UGV %1 (Group: %2) is immobilized. Respawning UGV group. Damage: %3. WaterPos: %4.",(typeOf _vehicle),_unitGroup,(damage _vehicle),(surfaceIsWater _checkPos)];};
-			if (A3XAI_debugMarkersEnabled) then {_checkPos call A3XAI_debugMarkerLocation;};
+			if (A3XAI_enableDebugMarkers) then {_checkPos call A3XAI_debugMarkerLocation;};
 		};
 	};
 } else {

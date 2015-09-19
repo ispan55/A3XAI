@@ -40,7 +40,7 @@ _pullRate = 30;
 if (isDedicated) then {
 	[_unitGroup,_unitType,_unitLevel] call A3XAI_setLoadoutVariables;
 	
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		_groupLeadMarker = format ["%1_Lead",_unitGroup];
 		if (_groupLeadMarker in allMapMarkers) then {deleteMarker _groupLeadMarker; uiSleep 0.5};	//Delete the previous marker if it wasn't deleted for some reason.
 		_groupLeadMarker = createMarker [_groupLeadMarker,getPosATL (leader _unitGroup)];
@@ -102,7 +102,7 @@ if (isDedicated) then {
 	waitUntil {uiSleep 0.25; (local _unitGroup)};
 	[_unitGroup,_unitType,_unitLevel] call A3XAI_setLoadoutVariables_HC;
 	
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		{
 			_nul = _x spawn {
 				waitUntil {sleep 5; ((local _this) or {!(alive _this)})};
@@ -208,7 +208,7 @@ if ((local _vehicle) && {isEngineOn _vehicle}) then {
 	_vehicle engineOn false;
 };
 
-if (A3XAI_debugMarkersEnabled) then {
+if (A3XAI_enableDebugMarkers) then {
 	deleteMarker _groupLeadMarker;
 	deleteMarker _groupWPMarker;
 };

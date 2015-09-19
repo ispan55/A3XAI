@@ -77,7 +77,7 @@ if (_unitType in A3XAI_airReinforcementAllowedTypes) then {
 	_unitGroup setVariable ["ReinforceAvailable",true];
 };
 
-if (A3XAI_debugMarkersEnabled) then {
+if (A3XAI_enableDebugMarkers) then {
 	_nul = _trigger call A3XAI_addMapMarker;
 };
 

@@ -28,7 +28,7 @@ _trigger setTriggerStatements _triggerStatements;
 
 if (A3XAI_debugLevel > 0) then {diag_log format["A3XAI Debug: No players remain in trigger area at %3. Deleting %1 AI groups in %2 seconds.",_grpCount, A3XAI_despawnWait,(triggerText _trigger)];};
 
-if (A3XAI_debugMarkersEnabled) then {
+if (A3XAI_enableDebugMarkers) then {
 	_nul = _trigger spawn {
 		_tMarker = str (_this);
 		_tMarker setMarkerText "STATIC TRIGGER (DESPAWNING)";
@@ -45,7 +45,7 @@ if ((triggerActivated _trigger) && {({isNull _x} count _grpArray) < _grpCount}) 
 	_triggerStatements set [2,_deactStatements];
 	_trigger setTriggerStatements _triggerStatements;
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: A player has entered the trigger area at %1. Cancelling despawn script.",(triggerText _trigger)];};
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		_nul = _trigger spawn {
 			_tMarker = str (_this);
 			_tMarker setMarkerText "STATIC TRIGGER (ACTIVE)";
@@ -80,7 +80,7 @@ if !(_permDelete) then {
 	_trigger setTriggerArea [650,650,0,false];
 	_trigger setTriggerStatements (_trigger getVariable "triggerStatements"); //restore original trigger statements
 	if !((_trigger getVariable ["respawnLimitOriginal",-1]) isEqualTo -1) then {_trigger setVariable ["respawnLimit",_trigger getVariable ["respawnLimitOriginal",-1]];};
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 			_nul = _trigger spawn {
 			_tMarker = str (_this);
 			_tMarker setMarkerText "STATIC TRIGGER (INACTIVE)";
@@ -89,7 +89,7 @@ if !(_permDelete) then {
 	};
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Despawned AI units at %1. Reset trigger's group array to: %2.",(triggerText _trigger),_trigger getVariable "GroupArray"];};
 } else {
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		deleteMarker (str (_trigger));
 	};
 	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: Permanently deleting a static spawn at %1.",triggerText _trigger]};

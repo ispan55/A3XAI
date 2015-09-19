@@ -70,6 +70,8 @@ _center_y = (_pos) select 1;
 _center_z = (_pos) select 2;
 if(isNil "_center_z")then{_center_z = 0;};
 
+_noAggroArea = !(_pos call A3XAI_checkInNoAggroArea);
+
 _wp_count = 4 + (floor random 3) + (floor (_max_dist / 100 ));
 _angle = (360 / (_wp_count -1));
 
@@ -112,7 +114,7 @@ while {count _wp_array < _wp_count} do
 	_wp_pos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 	
 	//Test begin
-	if (((surfaceIsWater _wp_pos) && {!_allowWater}) or {_wp_pos call A3XAI_checkInNoAggroArea}) then {
+	if (((surfaceIsWater _wp_pos) && {!_allowWater}) or {_noAggroArea && {_wp_pos call A3XAI_checkInNoAggroArea}}) then {
 		_retry = true;
 		_retryCount = 0;
 		_retryPos = [];
@@ -129,7 +131,7 @@ while {count _wp_array < _wp_count} do
 
 			_retryPos = [_prepos, 0, _slack, 6, 0, 50 * (pi / 180), 0, [],[_prepos]] call BIS_fnc_findSafePos;
 			_retryCount = _retryCount + 1;
-			if ((!surfaceIsWater _retryPos) && {!(_wp_pos call A3XAI_checkInNoAggroArea)}) then {
+			if ((!surfaceIsWater _retryPos) && {_noAggroArea && {!(_wp_pos call A3XAI_checkInNoAggroArea)}}) then {
 				_retry = false;
 				_wp_pos = _retryPos;
 			};

@@ -19,14 +19,8 @@ _directoryAsArray = toArray __FILE__;
 _directoryAsArray resize ((count _directoryAsArray) - 26);
 A3XAI_directory = toString _directoryAsArray;
 
-if (isNil "A3XAI_devOptions") then {
-	A3XAI_overrideEnabled = nil;
-	A3XAI_debugMarkersEnabled = false;
-} else {
-	if ("readoverridefile" in A3XAI_devOptions) then {A3XAI_overrideEnabled = true} else {A3XAI_overrideEnabled = nil};
-	if ("enabledebugmarkers" in A3XAI_devOptions) then {A3XAI_debugMarkersEnabled = true} else {A3XAI_debugMarkersEnabled = false};
-	A3XAI_devOptions = nil;
-};
+A3XAI_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
+A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
 if (isNil "A3XAI_ServerDir") then {
 	A3XAI_ServerDir = "@exileserver";
@@ -41,7 +35,7 @@ call compile preprocessFileLineNumbers format ["%1\A3XAI_config.sqf",A3XAI_Serve
 call compile preprocessFileLineNumbers format ["%1\scripts\verifySettings.sqf",A3XAI_directory];
 
 //Load custom A3XAI settings file.
-if ((!isNil "A3XAI_overrideEnabled") && {A3XAI_overrideEnabled}) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
+if (A3XAI_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
 
 //Load A3XAI functions
 _functionsCheck = call compile preprocessFileLineNumbers format ["%1\init\A3XAI_functions.sqf",A3XAI_directory];

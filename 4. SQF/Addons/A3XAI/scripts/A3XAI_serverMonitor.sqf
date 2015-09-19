@@ -189,7 +189,7 @@ while {true} do {
 					if ((((triggerStatements _x) select 1) != "") && {(_currentTime - (_x getVariable ["timestamp",_currentTime])) > RANDSPAWN_EXPIRY_TIME}) then {
 						_triggerLocation = _x getVariable ["triggerLocation",locationNull];
 						deleteLocation _triggerLocation;
-						if (A3XAI_debugMarkersEnabled) then {deleteMarker (str _x)};	
+						if (A3XAI_enableDebugMarkers) then {deleteMarker (str _x)};	
 						deleteVehicle _x;
 						A3XAI_randTriggerArray deleteAt _forEachIndex;
 					};
@@ -231,7 +231,7 @@ while {true} do {
 		_sideCheck = _currentTime;
 	};
 	
-	if (A3XAI_debugMarkersEnabled) then {
+	if (A3XAI_enableDebugMarkers) then {
 		{
 			if (_x in allMapMarkers) then {
 				_x setMarkerPos (getMarkerPos _x);

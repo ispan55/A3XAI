@@ -34,8 +34,8 @@ A3XAI Features
 * Universal map support: A3XAI supports any and every map for Arma 3 without changing any settings.
 * Plug-and-play installation: Installing and upgrading A3XAI is a simple copy and paste job and does not require modifying any Exile files.
 * Easy configuration: A single configuration file contains all settings for A3XAI. This config file is external to the A3XAI pbo, so configuration changes can be made without ever having to unpack or repack the pbo file.
-* Headless Client support: Offload AI calculations from your dedicated server to a headless client to improve server performance. The A3XAI HC can be started/stopped/restarted any time without causing problems.
+* Headless Client support*: Offload AI calculations from your dedicated server to a headless client to improve server performance. The A3XAI HC can be started/stopped/restarted any time without causing problems.
 
-Note: Headless clients are currently bugged in ArmA 3 1.50. It is recommended to only attempt using a headless client setup in ArmA 3 1.52+.
+* Headless clients are currently bugged in ArmA 3 1.50. It is recommended to only attempt using a headless client setup in ArmA 3 1.52+.
 
 This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.

@@ -18,7 +18,7 @@ if ((_trigger getVariable ["GroupArray",[]]) isEqualTo []) then {
 					_triggerStatements set [1,""];
 					_trigger setTriggerStatements _triggerStatements;
 					0 = _args call A3XAI_spawnUnits_random;
-					if (A3XAI_debugMarkersEnabled) then {
+					if (A3XAI_enableDebugMarkers) then {
 						_marker = str(_trigger);
 						_marker setMarkerColor "ColorOrange";
 						_marker setMarkerAlpha 0.9;

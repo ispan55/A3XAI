@@ -82,7 +82,7 @@ if (!(_trigger getVariable ["initialized",false])) then {
 _trigger setTriggerStatements _triggerStatements;
 [_trigger,"A3XAI_dynTriggerArray"] call A3XAI_updateSpawnCount;
 
-if (A3XAI_debugMarkersEnabled) then {
+if (A3XAI_enableDebugMarkers) then {
 	_nul = _trigger spawn {
 		_marker = str(_this);
 		_marker setMarkerColor "ColorOrange";

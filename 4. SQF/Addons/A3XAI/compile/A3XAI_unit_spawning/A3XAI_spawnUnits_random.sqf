@@ -36,7 +36,7 @@ try {
 					_triggerLocation setPosition _playerPos;
 					_baseDist = 150;
 					_extraDist = 100;
-					if (A3XAI_debugMarkersEnabled) then {
+					if (A3XAI_enableDebugMarkers) then {
 						str (_trigger) setMarkerPos _playerPos;
 					};
 				};
@@ -92,7 +92,7 @@ try {
 			_triggerStatements set [1,""];
 			_trigger setTriggerStatements _triggerStatements;
 
-			if (A3XAI_debugMarkersEnabled) then {
+			if (A3XAI_enableDebugMarkers) then {
 				_nul = _trigger spawn {
 					_marker = str(_this);
 					_marker setMarkerColor "ColorOrange";
