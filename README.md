@@ -6,7 +6,6 @@ Introduction
 ---
 A3XAI is a roaming/ambient AI spawning addon for ArmA 3 Exile mod (http://www.exilemod.com/).
 
-
 ---
 Installing A3XAI
 ---
