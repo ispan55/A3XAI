@@ -1,12 +1,10 @@
 A3XAI - Current Version: 0.1.0
 =====
 
----
 Introduction
 ---
 A3XAI is a roaming/ambient AI spawning addon for ArmA 3 Exile mod (http://www.exilemod.com/).
 
----
 Installing A3XAI
 ---
 1. Download the latest A3XAI release from the A3XAI Releases page: https://github.com/dayzai/A3XAI/releases
@@ -16,7 +14,6 @@ Installing A3XAI
 5. Paste the contents copied from Step 3 into this directory. When prompted to merge the "Addons" folder, click Yes. Note: No Exile files are being replaced or modified. This step merges the two Addon folders.
 6. (Optional) Configure A3XAI settings by editing A3XAI_config.sqf.
 
----
 A3XAI Features
 ---
 
