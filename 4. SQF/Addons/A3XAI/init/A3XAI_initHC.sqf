@@ -14,9 +14,6 @@ A3XAI_HCPlayerLoggedIn = false;
 A3XAI_HCGroupsCount = 0;
 A3XAI_enableHC = true;
 
-_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
-A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
-
 if (isNil "A3XAI_ServerDir") then {
 	A3XAI_ServerDir = "@exileserver";
 };
@@ -61,6 +58,9 @@ _centerMarker setMarkerSizeLocal [_markerInfo select 1,_markerInfo select 1];
 _nul = [] spawn {
 	_versionKey = [configFile >> "CfgPatches" >> "A3XAI_HC","A3XAI_HCVersion","0"] call BIS_fnc_returnConfigEntry;
 	diag_log format ["[A3XAI] Initializing A3XAI HC build %1 using base path %2.",_versionKey,A3XAI_directory];
+
+	_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
+	A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
 	//Load A3XAI config file
 	diag_log "[A3XAI] Loading A3XAI configuration file...";

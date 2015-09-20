@@ -116,7 +116,7 @@ A3XAI_deathMessages = false;
 //Sets side/faction for AI spawned by A3XAI. If A3XAI units are hostile with AI spawned from other install addons, consider changing this setting. Acceptable sides: east or west (Default: east)
 A3XAI_side = east;
 
-//Number of online players required for maximum (or minimum) AI spawn chance. Affects Static, Dynamic, Random AI spawns. (Default: 20)	
+//Number of online players required for maximum (or minimum) AI spawn chance. Affects Static, Dynamic, Random AI spawns. (Default: 10)	
 A3XAI_playerCountThreshold = 10;
 
 //true: Spawn chance multiplier scales upwards from value defined by A3XAI_chanceScalingThreshold to 1.00. false: Spawn chance multiplier scales downwards from 1.00 to A3XAI_chanceScalingThreshold.

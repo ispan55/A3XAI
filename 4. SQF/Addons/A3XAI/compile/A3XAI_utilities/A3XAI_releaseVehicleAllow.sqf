@@ -1,6 +1,9 @@
-private ["_object"];
+private ["_object","_vehicleClass"];
 
 _object = _this;
+
+_vehicleClass = [configFile >> "CfgVehicles" >> (typeOf _object),"vehicleClass",""] call BIS_fnc_returnConfigEntry;
+if ((toLower _vehicleClass) isEqualTo "autonomous") exitWith {};
 
 _object removeAllEventHandlers "GetIn";
 _object lock 1;

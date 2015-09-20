@@ -190,6 +190,13 @@ while {(!isNull _unitGroup) && {(_unitGroup getVariable ["GroupSize",-1]) > 0}} 
 			if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Waiting to transfer %1 group %2 ownership to headless client (ID: %3).",_unitType,_unitGroup,A3XAI_HCObjectOwnerID];};
 		};
 	};
+	
+	if (isDedicated) then {
+		if !((groupOwner _unitGroup) in [2,A3XAI_HCObjectOwnerID]) then {
+			_unitGroup setGroupOwner 2;
+			diag_log format ["[A3XAI] Returned improperly transferred group %1 to server.",_unitGroup];
+		};
+	};
 
 	//diag_log format ["DEBUG: Group Manager cycle time for group %1: %2 seconds.",_unitGroup,(diag_tickTime - _debugStartTime)];
 	if ((_unitGroup getVariable ["GroupSize",0]) > 0) then {uiSleep 15};
