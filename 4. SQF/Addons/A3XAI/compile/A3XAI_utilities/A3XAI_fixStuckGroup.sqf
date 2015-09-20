@@ -2,6 +2,7 @@
 #define SPACE_FOR_OBJECT "Land_Coil_F"
 #define DEFAULT_UNIT_CLASSNAME "i_survivor_F"
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
+#define NEAREST_ENEMY_RANGE 300
 
 private ["_unitGroup", "_vehicle", "_isInfantry", "_nearPlayers", "_leaderPos", "_newPosEmpty","_unitType","_vehicleType","_leader"];
 
@@ -24,12 +25,16 @@ if (_isInfantry) then {
 		_newPosEmpty = [_leaderPos,10 + random(25),random(360),0,[0,0],[25,SPACE_FOR_OBJECT]] call SHK_pos;
 	};
 
-	_newPosEmpty set [2,0];
-	{
-		_x setPosATL _newPosEmpty;
-		_x setVelocity [0,0,0.25];
-	} forEach (units _unitGroup);
-	if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Relocated stuck group %1 (%2) to new location %3m away.",_unitGroup,(_unitGroup getVariable ["unitType","unknown"]),(_leaderPos distance _newPosEmpty)];};
+	if (({isPlayer _x} count (_newPosEmpty nearEntities [[PLAYER_UNITS,"AllVehicles"], 300]) isEqualTo 0) && {((_newPosEmpty nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])}) then {
+		_newPosEmpty set [2,0];
+		{
+			_x setPosATL _newPosEmpty;
+			_x setVelocity [0,0,0.25];
+		} forEach (units _unitGroup);
+		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Relocated stuck group %1 (%2) to new location %3m away.",_unitGroup,(_unitGroup getVariable ["unitType","unknown"]),(_leaderPos distance _newPosEmpty)];};
+	} else {
+		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Unable to relocate stuck group %1 (%2).",_unitGroup,(_unitGroup getVariable ["unitType","unknown"])];};
+	};
 } else {
 	_newPosEmpty = [0,0,0];
 	if (_unitType in ["land","ugv"]) then {
@@ -50,7 +55,7 @@ if (_isInfantry) then {
 		_newPosEmpty = [_leaderPos,10 + random(25),random(360),0,[1,300],[25,(typeOf _vehicle)]] call SHK_pos;
 	};
 	_leader = (leader _unitGroup);
-	if ((_leader distance (_leader findNearestEnemy _vehicle)) > 500) then {
+	if ((_leader distance (_leader findNearestEnemy _vehicle)) > NEAREST_ENEMY_RANGE) then {
 		_vehicle setPosATL _newPosEmpty;
 		_vehicle setVelocity [0,0,0.25];
 		{
