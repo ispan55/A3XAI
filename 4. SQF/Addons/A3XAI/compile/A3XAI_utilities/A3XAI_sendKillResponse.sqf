@@ -1,7 +1,8 @@
-private ["_killer", "_victim", "_killerRespectPoints", "_fragAttributes", "_killerPlayerUID", "_lastKillAt", "_vehicleKiller", "_killStack", "_distance", "_distanceBonus", "_overallRespectChange", "_newKillerScore", "_killMessage", "_newKillerFrags"];
+private ["_killer", "_victim", "_killerRespectPoints", "_fragAttributes", "_killerPlayerUID", "_lastKillAt", "_vehicleKiller", "_killStack", "_distance", "_distanceBonus", "_overallRespectChange", "_newKillerScore", "_killMessage", "_newKillerFrags","_collision"];
 
-_killer = _this select 0;
-_victim = _this select 1;
+_killer 	= _this select 0;
+_victim 	= _this select 1;
+_collision 	= _this select 2;
 
 _fragAttributes = [];
 _killerPlayerUID = getPlayerUID _killer;
@@ -31,7 +32,7 @@ if (A3XAI_enableRespectRewards) then {
 			};
 		};
 	} else {
-		if (_victim getVariable ["CollisionKilled",false]) then {
+		if (_collision) then {
 			if ((driver _vehicleKiller) isEqualTo _killer) then {
 				if (A3XAI_respect_roadkillBonus > 0) then {
 					_fragAttributes pushBack "Road Kill";

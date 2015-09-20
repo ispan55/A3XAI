@@ -1,4 +1,3 @@
-#define AI_GROUP_SIDE east
 #define PLAYER_GROUP_SIDE resistance
 
 /*
@@ -13,17 +12,22 @@ _startTime = diag_tickTime;
 
 A3XAI_isActive = true;
 
-private ["_startTime","_directoryAsArray","_worldname","_allUnits","_functionsCheck"];
+private ["_startTime","_directoryAsArray","_worldname","_allUnits","_functionsCheck","_readOverrideFile","_reportDirectoryName"];
 
 _directoryAsArray = toArray __FILE__;
 _directoryAsArray resize ((count _directoryAsArray) - 26);
 A3XAI_directory = toString _directoryAsArray;
 
-A3XAI_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
+_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
+_reportDirectoryName = (([missionConfigFile >> "CfgDeveloperOptions","reportDirectoryName",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
 if (isNil "A3XAI_ServerDir") then {
 	A3XAI_ServerDir = "@exileserver";
+};
+
+if (_reportDirectoryName) then {
+	diag_log format ["Debug: File is [%1]",__FILE__];
 };
 
 //Report A3XAI version to RPT log
@@ -35,7 +39,7 @@ call compile preprocessFileLineNumbers format ["%1\A3XAI_config.sqf",A3XAI_Serve
 call compile preprocessFileLineNumbers format ["%1\scripts\verifySettings.sqf",A3XAI_directory];
 
 //Load custom A3XAI settings file.
-if (A3XAI_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
+if (_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
 
 //Load A3XAI functions
 _functionsCheck = call compile preprocessFileLineNumbers format ["%1\init\A3XAI_functions.sqf",A3XAI_directory];
@@ -90,9 +94,9 @@ _centerMarker setMarkerSizeLocal [_markerInfo select 1,_markerInfo select 1];
 
 //Set side relations only if needed
 _allUnits = +allUnits;
-if !((PLAYER_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 0) then {PLAYER_GROUP_SIDE setFriend [AI_GROUP_SIDE, 0]};
-if !((AI_GROUP_SIDE getFriend PLAYER_GROUP_SIDE) isEqualTo 0) then {AI_GROUP_SIDE setFriend [PLAYER_GROUP_SIDE, 0]};
-if !((AI_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 1) then {AI_GROUP_SIDE setFriend [AI_GROUP_SIDE, 1]};
+if !((PLAYER_GROUP_SIDE getFriend A3XAI_side) isEqualTo 0) then {PLAYER_GROUP_SIDE setFriend [A3XAI_side, 0]};
+if !((A3XAI_side getFriend PLAYER_GROUP_SIDE) isEqualTo 0) then {A3XAI_side setFriend [PLAYER_GROUP_SIDE, 0]};
+if !((A3XAI_side getFriend A3XAI_side) isEqualTo 1) then {A3XAI_side setFriend [A3XAI_side, 1]};
 
 //Continue loading required A3XAI script files
 [] execVM format ['%1\init\A3XAI_post_init.sqf',A3XAI_directory];

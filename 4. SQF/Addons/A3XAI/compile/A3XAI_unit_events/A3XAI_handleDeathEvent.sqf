@@ -2,7 +2,7 @@
 #define NVG_AI "NVGoggles"
 #define DEFAULT_UNIT_CLASSNAME "i_survivor_F"
 
-private["_victim","_killer","_unitGroup","_unitType","_launchWeapon","_launchAmmo","_groupIsEmpty","_unitsAlive","_vehicle","_groupSize","_newGroupSize","_fnc_deathHandler","_unitLevel","_bodyPos","_bodyPosEmpty"];
+private["_victim","_killer","_unitGroup","_unitType","_launchWeapon","_launchAmmo","_groupIsEmpty","_unitsAlive","_vehicle","_groupSize","_newGroupSize","_fnc_deathHandler","_unitLevel","_bodyPos","_bodyPosEmpty","_collisionKilled"];
 
 _victim = _this select 0;
 _killer = _this select 1;
@@ -86,10 +86,11 @@ if !(isNull _victim) then {
 	};
 	
 	if (isPlayer _killer) then {
+		_collisionKilled = _victim getVariable ["CollisionKilled",false];
 		if (isDedicated) then {
-			_nul = [_killer,_victim] spawn A3XAI_sendKillResponse;
+			_nul = [_killer,_victim,_collisionKilled] spawn A3XAI_sendKillResponse;
 		} else {
-			A3XAI_sendKillResponse_PVS = [_killer,_victim];
+			A3XAI_sendKillResponse_PVS = [_killer,_victim,_collisionKilled];
 			publicVariableServer "A3XAI_sendKillResponse_PVS";
 		};
 	};

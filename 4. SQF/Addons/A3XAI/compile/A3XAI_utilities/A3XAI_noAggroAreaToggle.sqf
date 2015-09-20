@@ -6,11 +6,13 @@ _inNoAggroArea = _this select 1;
 if (_inNoAggroArea) then {
 	if ((combatMode _unitGroup) in ["YELLOW","RED"]) then {
 		[_unitGroup,"IgnoreEnemies"] call A3XAI_forceBehavior;
+		[_unitGroup,true] call A3XAI_setNoAggroStatus;
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 in no-aggro zone.",_unitGroup];};
 	};
 } else {
 	if ((combatMode _unitGroup) isEqualTo "BLUE") then {
 		[_unitGroup,"Behavior_Reset"] call A3XAI_forceBehavior;
+		[_unitGroup,false] call A3XAI_setNoAggroStatus;
 		if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Group %1 exited no-aggro zone.",_unitGroup];};
 	};
 };

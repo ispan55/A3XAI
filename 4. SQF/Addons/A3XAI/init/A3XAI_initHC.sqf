@@ -14,7 +14,7 @@ A3XAI_HCPlayerLoggedIn = false;
 A3XAI_HCGroupsCount = 0;
 A3XAI_enableHC = true;
 
-A3XAI_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
+_readOverrideFile = (([missionConfigFile >> "CfgDeveloperOptions","readOverrideFile",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 A3XAI_enableDebugMarkers = (([missionConfigFile >> "CfgDeveloperOptions","enableDebugMarkers",0] call BIS_fnc_returnConfigEntry) isEqualTo 1);
 
 if (isNil "A3XAI_ServerDir") then {
@@ -66,7 +66,7 @@ _nul = [] spawn {
 	diag_log "[A3XAI] Loading A3XAI configuration file...";
 	call compile preprocessFileLineNumbers format ["%1\A3XAI_config.sqf",A3XAI_ServerDir];
 	call compile preprocessFileLineNumbers format ["%1\scripts\verifySettings.sqf",A3XAI_directory];
-	if (A3XAI_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
+	if (_readOverrideFile) then {call compile preprocessFileLineNumbers format ["%1\A3XAI_settings_override.sqf",A3XAI_ServerDir]};
 	
 	//Load internal use variables
 	call compile preprocessFileLineNumbers format ["%1\init\variables.sqf",A3XAI_directory];

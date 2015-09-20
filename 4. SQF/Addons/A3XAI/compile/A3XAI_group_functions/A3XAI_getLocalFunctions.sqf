@@ -67,6 +67,13 @@ call {
 		_fnc_vehicleAmmoFuelCheck = {};
 		_fnc_antistuck = A3XAI_antistuck_generic;
 	};
+	if (_unitType isEqualTo "staticcustom") exitWith {
+		_fnc_execEveryLoop = {};
+		_fnc_checkUnits = A3XAI_checkGroupUnits;
+		_fnc_generateLoot = A3XAI_generateGroupLoot;
+		_fnc_vehicleAmmoFuelCheck = {};
+		_fnc_antistuck = A3XAI_antistuck_generic;
+	};
 	if (_unitType isEqualTo "aircustom") exitWith {
 		_fnc_execEveryLoop = {};
 		_fnc_checkUnits = {};

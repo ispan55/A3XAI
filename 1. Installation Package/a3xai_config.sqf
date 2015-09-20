@@ -113,6 +113,9 @@ A3XAI_deathMessages = false;
 /*	Shared AI Unit Settings. These settings affect all AI spawned unless noted otherwise.
 --------------------------------------------------------------------------------------------------------------------*/	
 
+//Sets side/faction for AI spawned by A3XAI. If A3XAI units are hostile with AI spawned from other install addons, consider changing this setting. Acceptable sides: east or west (Default: east)
+A3XAI_side = east;
+
 //Number of online players required for maximum (or minimum) AI spawn chance. Affects Static, Dynamic, Random AI spawns. (Default: 20)	
 A3XAI_playerCountThreshold = 10;
 
@@ -541,7 +544,7 @@ A3XAI_skill3 = [
 /*	AI loadout probability settings.
 --------------------------------------------------------------------------------------------------------------------*/
 
-//Probabilities to equip uniform d other than default, according to AI level.
+//Probabilities to equip uniform other than default Bambi Overalls, according to AI level.
 A3XAI_addUniformChance0 = 0.60;
 A3XAI_addUniformChance1 = 0.70;
 A3XAI_addUniformChance2 = 0.80;
@@ -553,7 +556,7 @@ A3XAI_addBackpackChance1 = 0.70;
 A3XAI_addBackpackChance2 = 0.80;
 A3XAI_addBackpackChance3 = 0.90;
 
-//Probabilities to equip vest other than default, according to AI level.
+//Probabilities to equip vest, according to AI level.
 A3XAI_addVestChance0 = 0.60;
 A3XAI_addVestChance1 = 0.70;
 A3XAI_addVestChance2 = 0.80;
@@ -599,10 +602,10 @@ A3XAI_underbarrelChance3 = 0.90;
 /*	AI loot quantity settings
 --------------------------------------------------------------------------------------------------------------------*/
 
-//Maximum number of food loot items found on AI. (Default: 1)								
+//Maximum number of food loot items found on AI. (Default: 2)								
 A3XAI_foodLootCount = 2;
 
-//Maximum number of items to select from A3XAI_MiscLoot (generic loot) table. (Default: 1)											
+//Maximum number of items to select from A3XAI_MiscLoot (generic loot) table. (Default: 2)											
 A3XAI_miscLootCount = 2;						
 
 

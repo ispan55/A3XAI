@@ -30,6 +30,7 @@ _startTime = diag_tickTime;
 	["A3XAI_dynamicFoodBlacklist",[]],
 	["A3XAI_dynamicLootBlacklist",[]],
 	["A3XAI_playerCountThreshold",10],
+	["A3XAI_side",east],
 	["A3XAI_chanceScalingThreshold",0.50],
 	["A3XAI_upwardsChanceScaling",true],
 	["A3XAI_maxAirReinforcements",5],
@@ -323,6 +324,7 @@ if (A3XAI_verifySettings) then {
 	if ("air_reinforce" in A3XAI_airReinforcementAllowedTypes) then {A3XAI_airReinforcementAllowedTypes = A3XAI_airReinforcementAllowedTypes - ["air_reinforce"]};
 	if ("uav" in A3XAI_airReinforcementAllowedTypes) then {A3XAI_airReinforcementAllowedTypes = A3XAI_airReinforcementAllowedTypes - ["uav"]};
 	if ("ugv" in A3XAI_airReinforcementAllowedTypes) then {A3XAI_airReinforcementAllowedTypes = A3XAI_airReinforcementAllowedTypes - ["ugv"]};
+	if !(A3XAI_side in [east,west]) then {diag_log format ["[A3XAI] Error found in variable A3XAI_side. User defined value: %1. Acceptable values: east, west",A3XAI_side]; A3XAI_side = east;};
 };
 
 diag_log format ["[A3XAI] Verified all A3XAI settings in %1 seconds.",(diag_tickTime - _startTime)];

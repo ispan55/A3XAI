@@ -35,6 +35,10 @@ _traderCityPositions = [];
 	};
 } forEach allMapMarkers;
 
+if (_traderCityPositions isEqualTo []) then {
+	//Custom trader city positions handling to be implemented here
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: No trader zones found."];};
+};
 
 {
 	_location = [_x,NO_AGGRO_AREA_SIZE] call A3XAI_createNoAggroArea;

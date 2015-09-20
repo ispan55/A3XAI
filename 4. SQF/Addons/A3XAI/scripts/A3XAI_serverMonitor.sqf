@@ -7,7 +7,6 @@
 #define UPDATE_PLAYER_COUNT_FREQ 60
 #define PLAYER_UNITS "Exile_Unit_Player"
 #define EXTERNAL_OBJECT_MONITOR_NAME "ExileSimulationMonitoredVehicles"
-#define AI_GROUP_SIDE east
 #define PLAYER_GROUP_SIDE resistance
 
 if (A3XAI_debugLevel > 0) then {diag_log "A3XAI Server Monitor will start in 60 seconds."};
@@ -225,9 +224,9 @@ while {true} do {
 	
 	//Check for unwanted side modifications
 	if ((_currentTime - _sideCheck) > SIDECHECK_TIME) then {
-		if !((PLAYER_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 0) then {PLAYER_GROUP_SIDE setFriend [AI_GROUP_SIDE, 0]};
-		if !((AI_GROUP_SIDE getFriend PLAYER_GROUP_SIDE) isEqualTo 0) then {AI_GROUP_SIDE setFriend [PLAYER_GROUP_SIDE, 0]};
-		if !((AI_GROUP_SIDE getFriend AI_GROUP_SIDE) isEqualTo 1) then {AI_GROUP_SIDE setFriend [AI_GROUP_SIDE, 1]};
+		if !((PLAYER_GROUP_SIDE getFriend A3XAI_side) isEqualTo 0) then {PLAYER_GROUP_SIDE setFriend [A3XAI_side, 0]};
+		if !((A3XAI_side getFriend PLAYER_GROUP_SIDE) isEqualTo 0) then {A3XAI_side setFriend [PLAYER_GROUP_SIDE, 0]};
+		if !((A3XAI_side getFriend A3XAI_side) isEqualTo 1) then {A3XAI_side setFriend [A3XAI_side, 1]};
 		_sideCheck = _currentTime;
 	};
 	
@@ -246,7 +245,7 @@ while {true} do {
 	A3XAI_activeGroups = A3XAI_activeGroups - [grpNull];
 	_activeGroupAmount = format ["%1/%2",{(_x getVariable ["GroupSize",0]) > 0} count A3XAI_activeGroups,count A3XAI_activeGroups];
 	if (A3XAI_debugLevel > 1) then {
-		_allAIGroups = format [" (Total: %1)",{(side _x) isEqualTo AI_GROUP_SIDE} count allGroups];
+		_allAIGroups = format [" (Total: %1)",{(side _x) isEqualTo A3XAI_side} count allGroups];
 		_activeGroupAmount = _activeGroupAmount + _allAIGroups;
 	};
 	
