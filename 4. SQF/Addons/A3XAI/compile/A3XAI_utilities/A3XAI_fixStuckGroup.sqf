@@ -11,7 +11,6 @@ _unitGroup = _this select 0;
 _vehicle = (_unitGroup getVariable ["assignedVehicle",objNull]);
 _isInfantry = (isNull _vehicle);
 _unitType = _unitGroup getVariable ["unitType",""];
-
 _leaderPos = getPosATL (leader _unitGroup);
 
 if (_isInfantry) then {

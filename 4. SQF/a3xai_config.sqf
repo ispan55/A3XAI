@@ -267,7 +267,7 @@ A3XAI_vehiclesAllowedForPlayers = false;
 //Add name of location as displayed on map prevent AI vehicle patrols from travelling to these locations. Location names are case-sensitive. (Example: ["Aggelochori","Panochori","Zaros"])
 //Note: Vehicles may still pass through these areas, but will become non-hostile towards players until they travel 600m away from the area.
 A3XAI_waypointBlacklistAir = []; //Affects Air vehicles (including UAVs)
-A3XAI_waypointBlacklistLand = [];  //Affects Air vehicles (including UGVs)
+A3XAI_waypointBlacklistLand = [];  //Affects Land vehicles (including UGVs)
 
 
 /*	AI Air Vehicle patrol settings. 
@@ -543,12 +543,6 @@ A3XAI_skill3 = [
 
 /*	AI loadout probability settings.
 --------------------------------------------------------------------------------------------------------------------*/
-
-//Probabilities to equip uniform other than default Bambi Overalls, according to AI level.
-A3XAI_addUniformChance0 = 0.60;
-A3XAI_addUniformChance1 = 0.70;
-A3XAI_addUniformChance2 = 0.80;
-A3XAI_addUniformChance3 = 0.90;
 
 //Probabilities to equip backpack, according to AI level.
 A3XAI_addBackpackChance0 = 0.60;

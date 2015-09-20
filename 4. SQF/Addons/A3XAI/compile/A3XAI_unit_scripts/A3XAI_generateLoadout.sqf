@@ -1,10 +1,10 @@
-#define DEFAULT_UNIFORM_ITEM "Exile_Uniform_BambiOverall"
 #define GRENADE_AMMO_3RND "3Rnd_HE_Grenade_shell"
 #define GRENADE_AMMO_1RND "1Rnd_HE_Grenade_shell"
 #define FIRST_AID_ITEM_AI "FirstAidKit"
 
-private ["_unit", "_unitLevel", "_unitLevelInvalid", "_loadout", "_weaponSelected", "_unitLevelString", "_uniforms", "_backpacks", "_vests", "_headgears", "_magazine", "_uniformItem", "_backpackItem", "_vestItem", "_headgearItem", 
-"_useGL", "_weaponMuzzles", "_GLWeapon", "_GLMagazines", "_isRifle", "_opticsList", "_opticsType", "_pointersList", "_pointerType", "_muzzlesList", "_muzzleType", "_underbarrelList", "_underbarrelType", "_gadgetsArray", "_gadget"];
+private ["_unit", "_unitLevel", "_unitLevelInvalid", "_loadout", "_weaponSelected", "_unitLevelString", "_uniforms", "_uniformItem", "_backpackChance", "_backpacks", "_backpackItem", 
+"_vestChance", "_vests", "_vestItem", "_headgearChance", "_headgears", "_headgearItem", "_magazine", "_useGL", "_weaponMuzzles", "_GLWeapon", "_GLMagazines", "_isRifle", "_opticsList", 
+"_opticsType", "_pointersList", "_pointerType", "_muzzlesList", "_muzzleType", "_underbarrelList", "_underbarrelType", "_gadgetsArray", "_gadget"];
 
 _unit = _this select 0;
 _unitLevel = _this select 1;
@@ -23,19 +23,13 @@ _loadout = [[],[]];
 _weaponSelected = _unitLevel call A3XAI_getWeapon;
 _unitLevelString = str (_unitLevel);
 
-_uniformChance = missionNamespace getVariable ["A3XAI_addUniformChance"+_unitLevelString,1.00];
-_uniformItem = DEFAULT_UNIFORM_ITEM;
-if (_uniformChance call A3XAI_chance) then {
-	_uniforms = missionNamespace getVariable ["A3XAI_uniformTypes"+_unitLevelString,[]];
-	if !(_uniforms isEqualTo []) then {
-		_uniformItem = _uniforms call A3XAI_selectRandom;
-		_unit forceAddUniform _uniformItem;
-		//diag_log format ["DEBUG: %1",_uniformItem];
-	};
-} else {
-	_unit forceAddUniform DEFAULT_UNIFORM_ITEM;
-	//diag_log format ["DEBUG: %1",DEFAULT_UNIFORM_ITEM];
+_uniforms = missionNamespace getVariable ["A3XAI_uniformTypes"+_unitLevelString,[]];
+if !(_uniforms isEqualTo []) then {
+	_uniformItem = _uniforms call A3XAI_selectRandom;
+	_unit forceAddUniform _uniformItem;
+	//diag_log format ["DEBUG: %1",_uniformItem];
 };
+
 
 _backpackChance = missionNamespace getVariable ["A3XAI_addBackpackChance"+_unitLevelString,1.00];
 if (_backpackChance call A3XAI_chance) then {
