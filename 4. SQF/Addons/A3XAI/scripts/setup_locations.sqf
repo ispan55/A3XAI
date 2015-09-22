@@ -36,8 +36,14 @@ _traderCityPositions = [];
 } forEach allMapMarkers;
 
 if (_traderCityPositions isEqualTo []) then {
-	//Custom trader city positions handling to be implemented here
-	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: No trader zones found."];};
+	if (A3XAI_debugLevel > 0) then {diag_log format ["A3XAI Debug: No ExileTraderZone markers found. Reading trader locations from A3XAI_traderAreaLocations."];};
+	{
+		call {
+			if ((typeName _x) != "ARRAY") exitWith {diag_log "A3XAI Error: Non-array value found in A3XAI_traderAreaLocations";};
+			if ((count _x) < 2) exitWith {diag_log "A3XAI Error: Array value with fewer than 2 elements found in A3XAI_traderAreaLocations";};
+			_traderCityPositions pushBack _x;
+		};
+	} forEach A3XAI_traderAreaLocations;
 };
 
 {

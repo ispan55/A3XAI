@@ -1,5 +1,8 @@
 #define PLAYER_UNITS "Exile_Unit_Player"
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
+#define PLOTPOLE_RADIUS 300
+#define PLAYER_DISTANCE_NO_LOS 200
+#define PLAYER_DISTANCE_WITH_LOS 400
 
 private ["_patrolDist","_trigger","_totalAI","_minAI","_addAI","_unitLevel","_unitGroup","_playerPos","_spawnPos","_startTime","_baseDist","_extraDist","_triggerStatements","_spawnDist","_thisList" ,"_spawnPosSelected","_spawnChance","_firstActualPlayer"];
 
@@ -30,11 +33,11 @@ try {
 				if (
 						(({if (_playerPos in _x) exitWith {1}} count ((nearestLocations [_playerPos,["A3XAI_BlacklistedArea","A3XAI_RandomSpawnArea"],1500]) - [_triggerLocation])) isEqualTo 0) && 
 						{!(surfaceIsWater _playerPos)} &&
-						{((_playerPos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])}
+						{((_playerPos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo [])}
 					) then {
 					_trigger setPosASL _playerPos;
 					_triggerLocation setPosition _playerPos;
-					_baseDist = 150;
+					_baseDist = 200;
 					_extraDist = 100;
 					if (A3XAI_enableDebugMarkers) then {
 						str (_trigger) setMarkerPos _playerPos;
@@ -48,8 +51,9 @@ try {
 			throw format ["A3XAI Debug: No players of type %1 found.",PLAYER_UNITS];
 		};
 		
+		_trigger setTriggerArea [750,750,0,false]; //Expand trigger area to prevent players from quickly leaving and start respawn process immediately
 		_triggerPos = getPosATL _trigger;
-
+		
 		_nearAttempts = 0;
 		_spawnPos = [];
 		while {(_spawnPos isEqualTo []) && {_nearAttempts < 4}} do {
@@ -57,9 +61,9 @@ try {
 			_spawnPosSelASL = ATLToASL _spawnPosSelected;
 			if ((count _spawnPosSelected) isEqualTo 2) then {_spawnPosSelected set [2,0];};
 			if (
-				({if ((isPlayer _x) && {([eyePos _x,[(_spawnPosSelected select 0),(_spawnPosSelected select 1),(_spawnPosSelASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPosSelected) < 145)}) exitWith {1}} count (_spawnPosSelected nearEntities [[PLAYER_UNITS,"LandVehicle"], 200]) isEqualTo 0) && 
+				({if ((isPlayer _x) && {([eyePos _x,[(_spawnPosSelected select 0),(_spawnPosSelected select 1),(_spawnPosSelASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPosSelected) < PLAYER_DISTANCE_NO_LOS)}) exitWith {1}} count (_spawnPosSelected nearEntities [[PLAYER_UNITS,"LandVehicle"], PLAYER_DISTANCE_WITH_LOS]) isEqualTo 0) && 
 				{!(surfaceIsWater _spawnPosSelected)} &&
-				{((_spawnPosSelected nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])}
+				{((_spawnPosSelected nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo [])}
 			) then {
 				_spawnPos = _spawnPosSelected;
 			};

@@ -1,5 +1,7 @@
 #define PLAYER_UNITS "Exile_Unit_Player"
 #define SPACE_FOR_OBJECT "Land_Coil_F"
+#define PLAYER_DISTANCE_NO_LOS 150
+
 private ["_totalAI","_spawnPos","_unitGroup","_trigger","_attempts","_baseDist","_dummy","_unitLevel","_checkPos"];
 
 	
@@ -36,12 +38,12 @@ if (_checkPos) then {	//If provided position requires checking...
 
 _spawnPos set [2,0];
 
-if (({if (isPlayer _x) exitWith {1}} count (_spawnPos nearEntities [[PLAYER_UNITS],100])) isEqualTo 1) exitWith {
+if (({if (isPlayer _x) exitWith {1}} count (_spawnPos nearEntities [[PLAYER_UNITS,"LandVehicle"],PLAYER_DISTANCE_NO_LOS])) isEqualTo 1) exitWith {
 	if (isNull _unitGroup) then {_unitGroup = [_unitType,true] call A3XAI_createGroup;};
 	_unitGroup setVariable ["GroupSize",0];
 	_unitGroup setVariable ["trigger",_trigger];
 	0 = [0,_trigger,_unitGroup] call A3XAI_addRespawnQueue;
-	if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Spawn at %1 cancelled due to player(s) within 100m. Added group %2 to respawn queue.",_spawnPos,_unitGroup];};
+	if (A3XAI_debugLevel > 1) then {diag_log format ["A3XAI Debug: Spawn at %1 cancelled due to player(s) within 150m. Added group %2 to respawn queue.",_spawnPos,_unitGroup];};
 	_unitGroup
 };
 

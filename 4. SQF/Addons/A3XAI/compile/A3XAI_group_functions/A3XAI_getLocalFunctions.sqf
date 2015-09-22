@@ -5,21 +5,21 @@ _unitType = _this select 1;
 
 call {
 	if (_unitType isEqualTo "static") exitWith {
-		_fnc_execEveryLoop = A3XAI_avoidNoAggroArea;
+		_fnc_execEveryLoop = A3XAI_execEveryLoop_infantry;
 		_fnc_checkUnits = A3XAI_checkGroupUnits;
 		_fnc_generateLoot = A3XAI_generateGroupLoot;
 		_fnc_vehicleAmmoFuelCheck = {};
 		_fnc_antistuck = A3XAI_antistuck_generic;
 	};
 	if (_unitType isEqualTo "random") exitWith {
-		_fnc_execEveryLoop = A3XAI_avoidNoAggroArea;
+		_fnc_execEveryLoop = A3XAI_execEveryLoop_infantry;
 		_fnc_checkUnits = A3XAI_checkGroupUnits;
 		_fnc_generateLoot = A3XAI_generateGroupLoot;
 		_fnc_vehicleAmmoFuelCheck = {};
 		_fnc_antistuck = A3XAI_antistuck_generic;
 	};
 	if (_unitType isEqualTo "dynamic") exitWith {
-		_fnc_execEveryLoop = A3XAI_avoidNoAggroArea;
+		_fnc_execEveryLoop = A3XAI_execEveryLoop_infantry;
 		_fnc_checkUnits = A3XAI_checkGroupUnits;
 		_fnc_generateLoot = A3XAI_generateGroupLoot;
 		_fnc_vehicleAmmoFuelCheck = {};
@@ -61,7 +61,7 @@ call {
 		_fnc_antistuck = {};
 	};
 	if (_unitType isEqualTo "vehiclecrew") exitWith {
-		_fnc_execEveryLoop = A3XAI_avoidNoAggroArea;
+		_fnc_execEveryLoop = A3XAI_execEveryLoop_infantry;
 		_fnc_checkUnits = A3XAI_checkGroupUnits;
 		_fnc_generateLoot = A3XAI_generateGroupLoot;
 		_fnc_vehicleAmmoFuelCheck = {};

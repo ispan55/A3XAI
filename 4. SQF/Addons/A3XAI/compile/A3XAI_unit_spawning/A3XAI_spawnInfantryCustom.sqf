@@ -1,4 +1,6 @@
 #define PLAYER_UNITS "Exile_Unit_Player"
+#define PLAYER_DISTANCE_NO_LOS 200
+#define PLAYER_DISTANCE_WITH_LOS 300
 
 private ["_startTime", "_totalAI", "_patrolDist", "_trigger", "_unitLevel", "_grpArray", "_triggerPos", "_maxUnits", "_attempts", "_continue", "_spawnPos", "_spawnPosSelected", "_unitGroup", "_triggerStatements","_spawnRadius"];
 
@@ -33,7 +35,7 @@ while {_continue && {(_attempts < 3)}} do {
 	if ((count _spawnPosSelected) isEqualTo 2) then {_spawnPosSelected set [2,0];};
 	if (
 		!(_spawnPosSelASL call A3XAI_posInBuilding) && 
-		{({if ((isPlayer _x) && {([eyePos _x,[(_spawnPosSelected select 0),(_spawnPosSelected select 1),(_spawnPosSelASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPosSelected) < 30)}) exitWith {1}} count (_spawnPosSelected nearEntities [[PLAYER_UNITS,"LandVehicle"],200])) isEqualTo 0}
+		{({if ((isPlayer _x) && {([eyePos _x,[(_spawnPosSelected select 0),(_spawnPosSelected select 1),(_spawnPosSelASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPosSelected) < PLAYER_DISTANCE_NO_LOS)}) exitWith {1}} count (_spawnPosSelected nearEntities [[PLAYER_UNITS,"LandVehicle"],PLAYER_DISTANCE_WITH_LOS])) isEqualTo 0}
 	) then {
 		_spawnPos = _spawnPosSelected;
 		_continue = false;

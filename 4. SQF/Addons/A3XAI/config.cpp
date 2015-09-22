@@ -3,15 +3,15 @@ class CfgPatches {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = 0.1;
-		A3XAIVersion = "0.1.3";
-		A3XAICompatibleHCVersions[] = {"0.1.3"};
+		A3XAIVersion = "0.1.5";
+		A3XAICompatibleHCVersions[] = {"0.1.5"};
 		requiredAddons[] = {"exile_client"};
 	};
 	class A3XAI_HC {
 		units[] = {};
 		weapons[] = {};
 		requiredVersion = 0.1;
-		A3XAI_HCVersion = "0.1.3";
+		A3XAI_HCVersion = "0.1.5";
 		requiredAddons[] = {"exile_client"};
 	};
 };

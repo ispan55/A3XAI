@@ -1,5 +1,8 @@
 #define PLAYER_UNITS "Exile_Unit_Player"
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
+#define PLOTPOLE_RADIUS 300
+#define PLAYER_DISTANCE_NO_LOS 200
+#define PLAYER_DISTANCE_WITH_LOS 400
 
 private ["_patrolDist","_trigger","_totalAI","_unitGroup","_targetPlayer","_playerPos","_playerDir","_spawnPos","_spawnPosASL","_startTime","_baseDist","_distVariance","_dirVariance","_behavior","_triggerStatements","_spawnDist","_triggerLocation"];
 
@@ -20,10 +23,11 @@ if (isNull _targetPlayer) exitWith {
 	false
 };
 
-_baseDist = 150;
+_baseDist = 200;
 _distVariance = 100;
 _dirVariance = 80;
 
+_trigger setTriggerArea [750,750,0,false]; //Expand trigger area to prevent players from quickly leaving and start respawn process immediately
 _playerPos = getPosATL _targetPlayer;
 _playerDir = getDir _targetPlayer;
 _spawnDist = (_baseDist + random (_distVariance));
@@ -34,16 +38,16 @@ _triggerLocation = _trigger getVariable ["triggerLocation",locationNull];
 
 if (
 	(surfaceIsWater _spawnPos) or 
-	{({if ((isPlayer _x) && {([eyePos _x,[(_spawnPos select 0),(_spawnPos select 1),(_spawnPosASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPos) < 145)}) exitWith {1}} count (_spawnPos nearEntities [[PLAYER_UNITS,"LandVehicle"],200])) > 0} or 
+	{({if ((isPlayer _x) && {([eyePos _x,[(_spawnPos select 0),(_spawnPos select 1),(_spawnPosASL select 2) + 1.7],_x] call A3XAI_hasLOS) or ((_x distance _spawnPos) < PLAYER_DISTANCE_NO_LOS)}) exitWith {1}} count (_spawnPos nearEntities [[PLAYER_UNITS,"LandVehicle"],PLAYER_DISTANCE_WITH_LOS])) > 0} or 
 	{({if (_spawnPos in _x) exitWith {1}} count ((nearestLocations [_spawnPos,["A3XAI_BlacklistedArea","A3XAI_DynamicSpawnArea"],1500]) - [_triggerLocation])) > 0} or
-	{!((_spawnPos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])}
+	{!((_spawnPos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo [])}
 ) exitWith {
 	if (A3XAI_debugLevel > 1) then {
 		diag_log format ["A3XAI Debug: Canceling dynamic spawn for target player %1. Possible reasons: Spawn position has water, player nearby, or is blacklisted.",name _targetPlayer];
 		diag_log format ["DEBUG: Position is water: %1",(surfaceIsWater _spawnPos)];
 		diag_log format ["DEBUG: Player nearby: %1",({isPlayer _x} count (_spawnPos nearEntities [[PLAYER_UNITS,"LandVehicle"],200])) > 0];
 		diag_log format ["DEBUG: Location is blacklisted: %1",({_spawnPos in _x} count ((nearestLocations [_spawnPos,["A3XAI_BlacklistedArea","A3XAI_DynamicSpawnArea"],1000]) - [_triggerLocation])) > 0];
-		diag_log format ["DEBUG: No jammer nearby: %1.",((_spawnPos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])];
+		diag_log format ["DEBUG: No jammer nearby: %1.",((_spawnPos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo [])];
 	};
 	_nul = _trigger call A3XAI_cancelDynamicSpawn;
 	

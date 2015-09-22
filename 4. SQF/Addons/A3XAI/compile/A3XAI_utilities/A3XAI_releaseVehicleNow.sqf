@@ -4,8 +4,8 @@ _object = _this;
 
 _object removeAllEventHandlers "GetIn";
 _object setVariable ["A3XAI_deathTime",nil];
-_object addEventHandler ["Killed",{
-	(_this select 0) setVariable ["A3XAI_deathTime",diag_tickTime];
+_object addMPEventHandler ["MPKilled",{
+	(_this select 0) call A3XAI_vehMPKilled;
 }];
 
 _object call A3XAI_addToExternalObjectMonitor;

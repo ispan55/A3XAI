@@ -1,4 +1,4 @@
-A3XAI - Current Version: 0.1.4
+A3XAI - Current Version: 0.1.5
 =====
 
 Introduction

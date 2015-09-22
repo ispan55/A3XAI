@@ -106,9 +106,6 @@ A3XAI_dynamicLootBlacklist = [];
 //Enable or disable radio message receiving. Players with radios or part of a group with at least one radio will be able to intercept some AI communications. (Default: false)
 A3XAI_radioMsgs = false;
 
-//Enable or disable AI death messages. Messages will be visible to all group members of player responsible for killing the AI unit. (Default: false)
-A3XAI_deathMessages = false;
-
 
 /*	Shared AI Unit Settings. These settings affect all AI spawned unless noted otherwise.
 --------------------------------------------------------------------------------------------------------------------*/	
@@ -158,6 +155,9 @@ A3XAI_spawnChance_wilderness = 0.50; //0.50
 //(For dynamic and random spawns only) Defines amount of time to wait in seconds until cleaning up temporary blacklist area after dynamic/random spawn is deactivated (Default: 1200)
 A3XAI_tempBlacklistTime = 1200;
 
+//Enable or disable AI death messages. Messages will be visible to all group members of player responsible for killing the AI unit. (Default: true)
+A3XAI_deathMessages = true;
+
 //If enabled, AI group will attempt to track down player responsible for killing a group member. (Default: true)
 A3XAI_findKiller = true;	
 
@@ -189,6 +189,10 @@ A3XAI_noCollisionDamage = true;
 
 //If enabled, AI killed by vehicle collisions will have their gear removed (Default: true)
 A3XAI_roadKillPenalty = true;
+
+//Array of positions defining trader locations. Use this if your server is not using the standard Exile trader markers in mission.sqm
+//For performance reasons, do not add locations other than actual trader positions to this array.
+A3XAI_traderAreaLocations = [];
 
 
 /*	Static Infantry AI Spawning Settings
@@ -608,12 +612,6 @@ A3XAI_miscLootCount = 2;
 
 //Chance to add a single InstaDoc to group loot pool per unit (Default: 0.25)
 A3XAI_chanceFirstAidKit = 0.25;
-
-//Chance to add each edible item to group loot pool per unit (Default: 0.40)								
-A3XAI_chanceFoodLoot = 0.40;
-
-//Chance to add each generic loot item to group loot pool per unit (Default: 0.40)									
-A3XAI_chanceMiscLoot = 0.40;
 
 //Probability to successfully pull a random item from loot pool for level 0-3 AI. Influences the rate at which loot items are added to units.
 A3XAI_lootPullChance0 = 0.20; //Default for level 0 AI: 0.20

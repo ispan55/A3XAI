@@ -1,4 +1,5 @@
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
+#define PLOTPOLE_RADIUS 300
 #define SERVER_STARTED_INDICATOR "PublicHiveIsLoaded"
 
 private ["_expireTime", "_spawnsCreated", "_startTime", "_cfgWorldName"];
@@ -21,7 +22,7 @@ _cfgWorldName = configFile >> "CfgWorlds" >> worldName >> "Names";
 	if !((toLower _placeName) in A3XAI_staticBlacklistLocations) then {
 		if !(surfaceIsWater _placePos) then {
 			private ["_nearbldgs"];
-			if ((_placePos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo []) then {
+			if ((_placePos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo []) then {
 				_nearbldgs = _placePos nearObjects ["HouseBase",250];
 				_nearBlacklistedAreas = nearestLocations [_placePos,["A3XAI_BlacklistedArea"],1500];
 				_spawnPoints = 0;

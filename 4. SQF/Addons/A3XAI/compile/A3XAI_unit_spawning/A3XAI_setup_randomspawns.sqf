@@ -1,6 +1,7 @@
 #define MAX_RESPAWN_ATTEMPTS 2
 #define SERVER_STARTED_INDICATOR "PublicHiveIsLoaded"
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
+#define PLOTPOLE_RADIUS 300
 
 private ["_maxRandomSpawns","_attempts","_trigPos","_trigger","_markername","_marker"];
 
@@ -32,7 +33,7 @@ for "_i" from 1 to _maxRandomSpawns do {
 		_posCheckFail = (
 			(({if (_trigPos in _x) exitWith {1}} count (nearestLocations [_trigPos,["A3XAI_BlacklistedArea","A3XAI_RandomSpawnArea"],1500])) > 0) ||	//Position not in blacklisted area
 			{({if ((_trigPos distance _x) < (1200 + A3XAI_minRandSpawnDist)) exitWith {1}} count A3XAI_randTriggerArray) > 0} ||				//Not too close to another random spawn.
-			{!((_trigPos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])}																	//Position not blocked by a jammer
+			{!((_trigPos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo [])}																	//Position not blocked by a jammer
 		);
 		if (_posCheckFail && {_attempts < MAX_RESPAWN_ATTEMPTS}) then {uiSleep 0.25};
 	};

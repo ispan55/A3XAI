@@ -1,6 +1,7 @@
 #define SLEEP_DELAY 300
 #define PLAYER_UNITS "Exile_Unit_Player"
 #define PLOTPOLE_OBJECT "Exile_Construction_Flag_Static"
+#define PLOTPOLE_RADIUS 300
 
 if (A3XAI_debugLevel > 0) then {diag_log "Starting A3XAI Dynamic Spawn Manager in 2 minutes.";};
 uiSleep 120;
@@ -71,7 +72,7 @@ while {true} do {
 						{({if (_playerPos in _x) exitWith {1}} count (nearestLocations [_playerPos,["A3XAI_BlacklistedArea","A3XAI_DynamicSpawnArea"],1500])) isEqualTo 0} && //Player must not be in blacklisted areas
 						{(!(surfaceIsWater _playerPos))} && 											//Player must not be on water position
 						{!(_player getVariable ["ExileIsBambi",false])} &&					//Player must not be in debug area
-						{((_playerPos nearObjects [PLOTPOLE_OBJECT,300]) isEqualTo [])}					//Player must not be near Epoch buildables
+						{((_playerPos nearObjects [PLOTPOLE_OBJECT,PLOTPOLE_RADIUS]) isEqualTo [])}					//Player must not be near Epoch buildables
 					) then {
 						_lastSpawned_DB set [_index,diag_tickTime];
 						_trigger = createTrigger ["A3XAI_EmptyDetector",_playerPos,false];
@@ -106,7 +107,6 @@ while {true} do {
 							diag_log format ["DEBUG: Player not in blacklisted area: %1",(({_playerPos in _x} count (nearestLocations [_playerPos,["A3XAI_BlacklistedArea"],1000])) isEqualTo 0)];
 							diag_log format ["DEBUG: Player not in water: %1",!(surfaceIsWater _playerPos)];
 							diag_log format ["DEBUG: Player not in debug area: %1",((_playerPos distance getMarkerpos "respawn_west") > 2000)];
-							//diag_log format ["DEBUG: Player not near modular buildables: %1",((_playerPos nearObjects [PLOTPOLE_OBJECT,125]) isEqualTo [])];
 						};
 					};
 				} else {

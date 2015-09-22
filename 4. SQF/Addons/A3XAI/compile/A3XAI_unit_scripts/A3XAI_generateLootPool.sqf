@@ -16,16 +16,12 @@ if (_unitType != "dynamic") then {
 		
 		//Add food to loot list
 		for "_i" from 1 to A3XAI_foodLootCount do {
-			if (A3XAI_chanceFoodLoot call A3XAI_chance) then {
-				_lootPool pushBack (A3XAI_foodLoot call A3XAI_selectRandom);
-			};
+			_lootPool pushBack (A3XAI_foodLoot call A3XAI_selectRandom);
 		};
 
 		//Add items to loot list
 		for "_i" from 1 to A3XAI_miscLootCount do {
-			if (A3XAI_chanceMiscLoot call A3XAI_chance) then {
-				_lootPool pushBack (A3XAI_MiscLoot call A3XAI_selectRandom);
-			};
+			_lootPool pushBack (A3XAI_MiscLoot call A3XAI_selectRandom);
 		};
 		
 		sleep 0.25;
@@ -39,20 +35,16 @@ if (_unitType != "dynamic") then {
 		
 		//Add food to randomly chosen unit
 		for "_i" from 1 to A3XAI_foodLootCount do {
-			if (A3XAI_chanceFoodLoot call A3XAI_chance) then {
-				_lootUnit = (units _unitGroup) call A3XAI_selectRandom;
-				_lootItem = (A3XAI_foodLoot call A3XAI_selectRandom);
-				[_lootUnit,_lootItem] call A3XAI_addItem;
-			};
+			_lootUnit = (units _unitGroup) call A3XAI_selectRandom;
+			_lootItem = (A3XAI_foodLoot call A3XAI_selectRandom);
+			[_lootUnit,_lootItem] call A3XAI_addItem;
 		};
 
 		//Add items to randomly chosen unit
 		for "_i" from 1 to A3XAI_miscLootCount do {
-			if (A3XAI_chanceMiscLoot call A3XAI_chance) then {
-				_lootUnit = (units _unitGroup) call A3XAI_selectRandom;
-				_lootItem = (A3XAI_MiscLoot call A3XAI_selectRandom);
-				[_lootUnit,_lootItem] call A3XAI_addItem;
-			};
+			_lootUnit = (units _unitGroup) call A3XAI_selectRandom;
+			_lootItem = (A3XAI_MiscLoot call A3XAI_selectRandom);
+			[_lootUnit,_lootItem] call A3XAI_addItem;
 		};
 		
 		sleep 0.25;
